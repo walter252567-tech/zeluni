@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zeluni</title>
+<meta name="description" content="Zeluni is a user-generated media platform for video, photos and posts.">
+<meta name="theme-color" content="#0f1013">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffa62b'/%3E%3Cstop offset='.55' stop-color='%23f2606b'/%3E%3Cstop offset='1' stop-color='%237b4ce0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4 34 24 8h42L44 34zM60 22q14 2 6 18L18 82q-12-4-6-16zM26 94l24-24h42L66 94z' fill='url(%23g)'/%3E%3C/svg%3E">
+<style>
+/* ========================= STYLES ========================= */
+:root{--bg:#0f1013;--bg2:#16171b;--bg3:#1e2025;--bg4:#282b32;--line:#2b2e36;--tx:#f4f5f7;--mu:#a3a8b3;--acc:#ff8a2a;--acc2:#f2606b;--acc3:#7b4ce0;--grad:linear-gradient(135deg,#ffa62b 0%,#f2606b 55%,#7b4ce0 100%);--ok:#3ddc97;--warn:#ffc247;--err:#ff6b78;--r:12px;--side:236px;--top:56px;--bot:60px;--ease:cubic-bezier(.2,.7,.2,1);--dur:180ms}
+*{box-sizing:border-box}
+html{color-scheme:dark;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+img,video{max-width:100%;display:block}
+h1,h2,h3,h4{margin:0;line-height:1.25}
+h1{font-size:1.6rem}h2{font-size:1.25rem}h3{font-size:1rem}
+p{margin:0}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--acc);color:#111;padding:8px 12px;border-radius:8px;z-index:200}
+.skip:focus{left:8px}
+.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic.sm{width:16px;height:16px}.ic.lg{width:32px;height:32px}
+.ic.fill{fill:currentColor;stroke:none}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.mu{color:var(--mu)}.sm{font-size:.85rem}.xs{font-size:.76rem}.ok{color:var(--ok)}.err{color:var(--err)}.warn{color:var(--warn)}
+.row{display:flex;align-items:center;gap:10px}.col{display:flex;flex-direction:column;gap:10px}.wrap{flex-wrap:wrap}.grow{flex:1;min-width:0}.between{justify-content:space-between}.center{text-align:center}
+.trunc{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* top bar */
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--top);z-index:50;display:flex;align-items:center;gap:12px;padding:0 12px;background:rgba(15,16,19,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.14em;font-size:1.05rem}
+.logo svg,.logo img{height:30px;width:auto}
+.logo:hover{text-decoration:none}
+.search{flex:1;max-width:560px;margin:0 auto;display:none;position:relative}
+.search input{width:100%;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);padding:0 40px 0 16px;outline:none}
+.search input:focus{border-color:var(--acc)}
+.search button{position:absolute;right:4px;top:4px;width:30px;height:30px;display:grid;place-items:center;border-radius:50%;color:var(--mu)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-size:.78rem;background:var(--bg3);border:1px solid var(--line);color:var(--mu)}
+.chip.bad{color:var(--err);border-color:var(--err)}.chip.good{color:var(--ok);border-color:#1f6b4b}.chip.warnc{color:var(--warn);border-color:#6b5320}
+.iconbtn{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;position:relative;transition:background var(--dur) var(--ease),transform 100ms}
+.iconbtn:hover{background:var(--bg3)}.iconbtn:active{transform:scale(.96)}
+.badge{position:absolute;top:4px;right:3px;min-width:16px;height:16px;border-radius:8px;background:var(--acc2);font-size:.65rem;display:grid;place-items:center;padding:0 4px;color:#fff}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;background:var(--bg4);border:1px solid var(--line);font-weight:600;transition:transform 100ms var(--ease),background var(--dur) var(--ease),opacity var(--dur);white-space:nowrap}
+.btn:hover{background:#31353d;text-decoration:none}.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--grad);border:0;color:#14110e}.btn.pri:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent}.btn.sm{min-height:32px;padding:0 12px;font-size:.85rem}
+.btn.danger{color:var(--err)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+/* layout */
+#layout{padding-top:var(--top)}
+.side{display:none;position:fixed;top:var(--top);left:0;bottom:0;width:var(--side);padding:12px 8px;border-right:1px solid var(--line);background:var(--bg);overflow-y:auto;z-index:20}
+.side a{display:flex;align-items:center;gap:14px;height:44px;padding:0 14px;border-radius:10px;font-weight:500;color:var(--mu);transition:background var(--dur) var(--ease)}
+.side a:hover{background:var(--bg3);text-decoration:none;color:var(--tx)}
+.side a[aria-current=page]{background:var(--bg3);color:var(--tx)}
+.side a[aria-current=page] .ic{stroke:var(--acc)}
+.side hr{border:0;border-top:1px solid var(--line);margin:10px 0}
+main{padding:14px 12px calc(var(--bot) + 40px);max-width:1560px;margin:0 auto;outline:none;min-height:70vh}
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:40;height:calc(var(--bot) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);display:grid;grid-template-columns:repeat(5,1fr);background:var(--bg2);border-top:1px solid var(--line)}
+.bottom a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:.68rem;color:var(--mu);position:relative;min-height:48px}
+.bottom a:hover{text-decoration:none}
+.bottom a[aria-current=page]{color:var(--tx)}.bottom a[aria-current=page] .ic{stroke:var(--acc)}
+.bottom .create{color:#14110e}
+.bottom .create span.plus{width:44px;height:32px;border-radius:12px;background:var(--grad);display:grid;place-items:center}
+@media(min-width:700px){.search{display:block}.mobsearch{display:none}}
+@media(min-width:1024px){.side{display:block}.bottom{display:none}.mainwrap{margin-left:var(--side)}main{padding:24px 28px 60px}.topbar{padding:0 20px}}
+/* grid + cards */
+.grid{display:grid;grid-template-columns:1fr;gap:20px 16px}
+@media(min-width:560px){.grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}}
+.card{display:flex;flex-direction:column;gap:10px;transition:transform var(--dur) var(--ease)}
+@media(hover:hover){.card:hover{transform:scale(1.015)}}
+.thumb{position:relative;display:block;aspect-ratio:16/9;background:var(--bg3);border-radius:var(--r);overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 250ms var(--ease)}
+.thumb img.on{opacity:1}
+.thumb .ph{position:absolute;inset:0;display:grid;place-items:center;color:#4a4e59}
+.thumb .dur{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.78);border-radius:6px;padding:1px 6px;font-size:.75rem;font-weight:600}
+.thumb .tag{position:absolute;left:8px;top:8px}
+.card .meta{display:flex;gap:10px}
+.card h3{font-size:.98rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.av{width:36px;height:36px;border-radius:50%;background:var(--grad);flex:none;overflow:hidden;display:grid;place-items:center;font-weight:800;color:#14110e;font-size:.9rem;position:relative}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.av.lg{width:96px;height:96px;font-size:2rem;border:4px solid var(--bg)}
+.av.md{width:48px;height:48px}
+.postcard{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px}
+.postmedia{display:grid;gap:4px;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+.postmedia .thumb{aspect-ratio:1}
+.badge-t{display:inline-block;border-radius:6px;padding:1px 7px;font-size:.7rem;font-weight:700;background:rgba(0,0,0,.7);letter-spacing:.04em}
+.badge-t.pend{background:#5b4210;color:var(--warn)}.badge-t.rej{background:#5b1d24;color:var(--err)}
+/* tabs, forms */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:0 0 16px;overflow-x:auto;scrollbar-width:none}
+.tabs button{padding:10px 16px;color:var(--mu);font-weight:600;border-bottom:2px solid transparent;white-space:nowrap;transition:color var(--dur)}
+.tabs button[aria-selected=true]{color:var(--tx);border-color:var(--acc)}
+.tabpanel{animation:fadein 200ms var(--ease)}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--mu)}
+input[type=text],input[type=url],input[type=number],input[type=search],textarea,select{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none;transition:border-color var(--dur)}
+input:focus,textarea:focus,select:focus{border-color:var(--acc)}
+textarea{min-height:90px;resize:vertical}
+.fgrid{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:700px){.fgrid.two{grid-template-columns:1fr 1fr}}
+.panel{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.note{border-radius:10px;padding:10px 14px;font-size:.88rem;background:var(--bg3);border:1px solid var(--line)}
+.note.warn{border-color:#6b5320;background:#231d0f;color:#f3d894}.note.bad{border-color:#6b2830;background:#241216;color:#ffb3bb}.note.info{border-color:#2b3f6b;background:#111a2b;color:#b9cdf5}
+.hero{display:grid;place-items:center;text-align:center;gap:16px;padding:8vh 12px}
+.hero .logo svg,.hero .logo img{height:64px}
+/* upload */
+.drop{border:2px dashed var(--line);border-radius:16px;padding:34px 16px;text-align:center;background:var(--bg2);transition:border-color var(--dur),background var(--dur)}
+.drop.over{border-color:var(--acc);background:#1d1a16}
+.ucard{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:10px;animation:rise 200ms var(--ease)}
+.ucard .top{display:flex;gap:12px}
+.ucard .pv{width:112px;aspect-ratio:16/9;border-radius:8px;background:var(--bg3);overflow:hidden;flex:none;display:grid;place-items:center;color:#4a4e59}
+.ucard .pv img{width:100%;height:100%;object-fit:cover}
+.bar{height:6px;border-radius:3px;background:var(--bg4);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--grad);transition:width 200ms linear}
+.state{font-size:.72rem;font-weight:700;letter-spacing:.05em;padding:2px 8px;border-radius:6px;background:var(--bg4)}
+.state.s-UPLOADING,.state.s-PROCESSING,.state.s-COMPRESSING,.state.s-PREPARING,.state.s-VERIFYING{color:var(--acc)}
+.state.s-READY,.state.s-PUBLISHED{color:var(--ok)}.state.s-FAILED,.state.s-REJECTED{color:var(--err)}
+.state.s-PAUSED,.state.s-RECONNECTING,.state.s-CANCELLED{color:var(--warn)}
+#upl-pill{position:fixed;right:12px;bottom:calc(var(--bot) + 14px + env(safe-area-inset-bottom));z-index:45;display:none;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:var(--bg3);border:1px solid var(--acc);box-shadow:0 6px 24px rgba(0,0,0,.45);font-weight:600}
+#upl-pill.on{display:flex;animation:rise 200ms var(--ease)}
+@media(min-width:1024px){#upl-pill{bottom:20px;right:20px}}
+#drawer{position:fixed;right:12px;left:12px;bottom:calc(var(--bot) + 70px + env(safe-area-inset-bottom));max-height:60vh;overflow:auto;z-index:46;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:12px;display:none;box-shadow:0 12px 40px rgba(0,0,0,.55)}
+#drawer.on{display:block;animation:rise 200ms var(--ease)}
+@media(min-width:700px){#drawer{left:auto;width:420px}}
+@media(min-width:1024px){#drawer{bottom:76px}}
+.drow{padding:8px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}.drow:last-child{border:0}
+/* profile */
+.cover{height:150px;border-radius:var(--r);background:var(--bg3);overflow:hidden;position:relative}
+.cover img{width:100%;height:100%;object-fit:cover}
+@media(min-width:700px){.cover{height:220px}}
+.phead{display:flex;gap:16px;align-items:flex-end;margin:-40px 16px 12px;flex-wrap:wrap}
+/* watch page */
+.watch{display:grid;gap:20px}
+@media(min-width:1100px){.watch{grid-template-columns:minmax(0,1fr) 380px}}
+.zp{position:relative;background:#000;border-radius:var(--r);overflow:hidden;aspect-ratio:16/9;user-select:none}
+.zp video{width:100%;height:100%;background:#000;object-fit:contain}
+.zp .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.zp .ctl{position:absolute;left:0;right:0;bottom:0;padding:24px 10px 8px;background:linear-gradient(transparent,rgba(0,0,0,.82));display:flex;flex-direction:column;gap:4px;transition:opacity 200ms var(--ease)}
+.zp.idle .ctl{opacity:0;pointer-events:none}.zp.idle{cursor:none}
+.zp .cr{display:flex;align-items:center;gap:2px}
+.zp .cr .iconbtn{width:38px;height:38px;color:#fff}
+.zp input[type=range]{accent-color:var(--acc);width:100%;height:18px;background:none;border:0;padding:0}
+.zp .vol{width:70px}
+.zp .tm{font-size:.8rem;margin:0 8px;font-variant-numeric:tabular-nums}
+.zp .center{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.zp .spin{width:44px;height:44px;border-radius:50%;border:4px solid rgba(255,255,255,.25);border-top-color:var(--acc);animation:spin 800ms linear infinite;display:none}
+.zp.buf .spin{display:block}
+.zp .msg{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:20px;background:rgba(0,0,0,.8);gap:12px;align-content:center;z-index:3}
+.zp.fail .msg{display:grid}
+.pop{position:absolute;bottom:52px;right:8px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:6px;min-width:140px;z-index:5;animation:rise 150ms var(--ease)}
+.pop button{display:block;width:100%;text-align:left;padding:8px 12px;border-radius:6px;font-size:.88rem}
+.pop button:hover,.pop button[aria-checked=true]{background:var(--bg4)}
+.menu{position:absolute;z-index:60;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:6px;min-width:200px;box-shadow:0 10px 30px rgba(0,0,0,.5);animation:rise 150ms var(--ease)}
+.menu button{display:flex;width:100%;gap:10px;align-items:center;text-align:left;padding:9px 12px;border-radius:6px}
+.menu button:hover{background:var(--bg4)}
+.tagl{display:inline-block;border-radius:999px;background:var(--bg3);border:1px solid var(--line);padding:2px 12px;font-size:.82rem;margin:0 6px 6px 0}
+.tagl:hover{border-color:var(--acc);text-decoration:none}
+/* modal, toasts */
+#modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;background:rgba(0,0,0,.66);padding:12px}
+#modal.on{display:grid;animation:fadein 160ms var(--ease)}
+.dlg{width:min(560px,100%);max-height:92vh;overflow:auto;background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px;animation:rise 200ms var(--ease)}
+#toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--bot) + 16px + env(safe-area-inset-bottom));z-index:120;display:flex;flex-direction:column;gap:8px;align-items:center;width:min(92vw,420px);pointer-events:none}
+@media(min-width:1024px){#toasts{bottom:24px}}
+.toast{pointer-events:auto;width:100%;background:var(--bg3);border:1px solid var(--line);border-left:4px solid var(--acc);padding:10px 14px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:rise 200ms var(--ease)}
+.toast.err{border-left-color:var(--err)}.toast.ok{border-left-color:var(--ok)}
+.sk{background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.3s linear infinite;border-radius:var(--r)}
+.test{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.pill{font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:6px;min-width:112px;text-align:center}
+.pill.PASS{background:#123826;color:var(--ok)}.pill.FAIL{background:#3a161b;color:var(--err)}.pill.NC{background:#3a2f12;color:var(--warn)}.pill.RUN,.pill.NR{background:var(--bg4);color:var(--mu)}
+table.t{width:100%;border-collapse:collapse;font-size:.88rem}table.t td,table.t th{padding:8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes shimmer{to{background-position:-200% 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<linearGradient id="zg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffa62b"/><stop offset=".55" stop-color="#f2606b"/><stop offset="1" stop-color="#7b4ce0"/></linearGradient>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16.2 7.8l-2.1 6.3-6.3 2.1 2.1-6.3z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21v-1a6 6 0 0 1 12 0v1M16 4a4 4 0 0 1 0 8M22 21v-1a6 6 0 0 0-4-5.6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12M6 10l6 6 6-6M4 20h16"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 5.6a5.5 5.5 0 0 0-7.8 0L12 6.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 22l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 4h3v16H7zM14 4h3v16h-3z"/></symbol>
+<symbol id="i-vol" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></symbol>
+<symbol id="i-mute" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6"/></symbol>
+<symbol id="i-full" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></symbol>
+<symbol id="i-pip" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><rect x="12" y="12" width="8" height="6" rx="1"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9L7 7M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4M4 4h13l-2 4 2 4H4"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M18 10a6 6 0 0 0-11.7-1.5A4.5 4.5 0 0 0 7 18h11a4 4 0 0 0 0-8z"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+<symbol id="i-film" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 8h4M3 12h4M3 16h4M17 8h4M17 12h4M17 16h4"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+<symbol id="i-text" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
+<symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+<symbol id="i-pausec" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M10 9v6M14 9v6"/></symbol>
+<symbol id="i-cc" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M10 10a2 2 0 1 0 0 4M17 10a2 2 0 1 0 0 4"/></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol>
+</defs></svg>
+<a class="skip" href="#view">Skip to content</a>
+<header class="topbar" id="topbar">
+  <a class="logo" id="logoLink" href="/" data-nav="/" aria-label="Zeluni home"></a>
+  <form class="search" id="searchForm" role="search" autocomplete="off">
+    <label class="vh" for="q">Search</label>
+    <input id="q" type="search" placeholder="Search videos, photos, creators" maxlength="120">
+    <button type="submit" aria-label="Search"><svg class="ic"><use href="#i-search"/></svg></button>
+  </form>
+  <div class="top-actions">
+    <span id="netChip" class="chip bad" hidden>Offline</span>
+    <a class="iconbtn mobsearch" href="/search" data-nav="/search" aria-label="Search"><svg class="ic"><use href="#i-search"/></svg></a>
+    <a class="btn pri sm" href="/upload" data-nav="/upload" id="topUpload"><svg class="ic sm"><use href="#i-upload"/></svg><span>Create</span></a>
+    <a class="iconbtn" href="/notifications" data-nav="/notifications" aria-label="Notifications" id="notifBtn"><svg class="ic"><use href="#i-bell"/></svg><span class="badge" id="notifBadge" hidden>0</span></a>
+    <a class="iconbtn" href="/settings" data-nav="/settings" aria-label="Settings"><svg class="ic"><use href="#i-gear"/></svg></a>
+  </div>
+</header>
+<div id="layout">
+  <aside class="side" id="side" aria-label="Primary"></aside>
+  <div class="mainwrap"><main id="view" tabindex="-1" aria-live="polite"></main></div>
+</div>
+<nav class="bottom" id="bottomNav" aria-label="Primary mobile"></nav>
+<button id="upl-pill" type="button" aria-haspopup="dialog" aria-controls="drawer"><svg class="ic sm"><use href="#i-upload"/></svg><span id="upl-pill-t">Uploads</span></button>
+<section id="drawer" role="dialog" aria-label="Upload queue"></section>
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="modal" role="presentation"></div>
+<noscript><p style="padding:24px">Zeluni requires JavaScript.</p></noscript>
+
+<script>
+"use strict";
+/* =====================================================================
+   ZELUNI — single-file user-generated media platform
+   =====================================================================
+   BACKEND CONTRACT (CentralUploadEndpointStorage). Base = centralUploadEndpoint.
+   All JSON unless noted. Auth: "Authorization: Bearer <Google access token>" when the
+   user connected Google, plus "X-Zeluni-User: <local profile id>". The endpoint MUST
+   validate identity, ownership, size, MIME, rate limits and moderation server-side.
+
+   POST /upload/init            {uploadId, role, filename, size, mime, checksum, kind, groupId}
+                                -> {uploadSessionId, offset?, chunkSize?}
+   POST /upload/chunk           headers: X-Upload-Id, Content-Range: bytes S-E/TOTAL; body: raw bytes
+                                -> {offset, done?, result?}
+   POST /upload/complete        {uploadSessionId, uploadId}
+                                -> {driveFileId, size, mediaUrl?, processing?:{status}}
+   GET  /upload/status/:id      -> {state:'UPLOADING'|'PROCESSING'|'READY'|'FAILED', offset?, progress?,
+                                    driveFileId?, playbackFileId?, playbackUrl?, thumbnailFileId?, thumbnailUrl?,
+                                    variants?:[{label,fileId,url,width,height,size}], width?, height?, duration?,
+                                    playbackSize?, error?}
+                                    404/410 = session expired
+   GET  /manifest               -> {version:1, updatedAt, items:[], posts:[], users:[]}
+   GET  /media/:fileId          -> media bytes (supports Range)
+   GET  /download/:id/:quality  -> bytes with Content-Disposition (quality: original|1080p|720p|...)
+   POST /posts                  {post}  -> {post}
+   POST /publish                {item}  -> {item}  (server decides moderationStatus)
+   POST /report                 {report} -> {ok:true}
+   Errors: JSON {error:{code,message}}; 401 auth expired, 403 denied/quota, 404 missing, 429 rate, 5xx retryable.
+
+   GOOGLE DRIVE DIRECT: browser OAuth (Google Identity Services token model, no secret),
+   resumable upload protocol (session URI + PUT Content-Range chunks, HTTP 308 handling).
+   NOTE: with the narrow "drive.file" scope the app can only touch files/folders it created
+   or the user opened with it; writing into an arbitrary pre-existing folder usually needs the
+   broader "drive" scope (restricted by Google) or a trusted backend. The app reports
+   permission errors literally instead of hiding them.
+
+   STATIC-FILE LIMITS (honest): a client-only file cannot write to the owner's private Drive for
+   anonymous visitors, cannot guarantee search-engine indexing of dynamic uploads and cannot
+   share a database between users. Use CENTRAL_PRODUCTION with a backend for that.
+   SPA routing needs a server rewrite of unknown paths to index.html (otherwise use hash mode).
+   ===================================================================== */
+
+/* ============================ CONFIGURATION ============================ */
+const ZELUNI_CONFIG = {
+  // --- Google (browser OAuth client ID only; NEVER put secrets here) ---
+  googleClientId: "",
+  googleDriveFolderId: "1Mgj0sBHn6qDwMrwaDDu9YwWHSbDxdpGJ",
+  driveScope: "https://www.googleapis.com/auth/drive.file",
+  drivePublicSharing: false,      // if true, uploaded files get "anyone with link: reader" on publish
+  // --- Central backend (production) ---
+  centralUploadEndpoint: "",      // e.g. https://api.example.com/zeluni
+  publicManifestUrl: "",          // GET -> manifest JSON
+  publicMediaBaseUrl: "",         // CDN base, files resolved as <base>/<fileId>
+  // --- Site / SEO ---
+  publicSiteUrl: "",              // PUBLIC_SITE_URL, e.g. https://zeluni.example
+  sitemapEndpoint: "",            // SITEMAP_ENDPOINT (backend generated)
+  logoUrl: "",                    // optional: URL of the supplied Zeluni logo image (overrides inline vector)
+  basePath: "",                   // if served from a sub-path, e.g. "/app"
+  routeMode: "auto",              // auto | history | hash
+  // --- Modes ---
+  storageMode: "auto",            // auto | LOCAL_DEVELOPMENT | GOOGLE_DRIVE_DIRECT | CENTRAL_PRODUCTION
+  productionMode: false,          // true => local-development storage is refused
+  localAutoApprove: true,         // LOCAL_DEVELOPMENT only: this device acts as its own moderator
+  ageGate: true,                  // 18+ gate (self-declaration unless window.ZELUNI_HOOKS.verifyAge exists)
+  debugMode: false,
+  // --- Upload engine ---
+  uploadChunkSize: 50 * 1024 * 1024,
+  maxConcurrentUploads: 2,
+  maxRetries: 6,
+  maxVideoBytes: 8 * 1024 ** 3,
+  maxImageBytes: 50 * 1024 ** 2,
+  localMaxBytes: 256 * 1024 ** 2, // LOCAL_DEVELOPMENT keeps files in IndexedDB blobs; capped
+  enableBrowserCompression: true,
+  ffmpegMaxBytes: 256 * 1024 ** 2,// larger videos => "serverTranscodeRequired"
+  ffmpegScriptUrl: "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js",
+  ffmpegWorkerUrl: "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/814.ffmpeg.js",
+  ffmpegCoreBase: "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd",
+  hlsScriptUrl: "https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js",
+  categories: ["General","Entertainment","Music","Gaming","Education","Sports","Travel","Art","Technology","Lifestyle","Other"],
+  pageSize: 24
+};
+const CFG = Object.assign({}, ZELUNI_CONFIG);
+const EDITABLE_CFG = ["googleClientId","googleDriveFolderId","driveScope","drivePublicSharing","centralUploadEndpoint","publicManifestUrl","publicMediaBaseUrl","publicSiteUrl","sitemapEndpoint","logoUrl","storageMode","productionMode","localAutoApprove","enableBrowserCompression","uploadChunkSize","maxConcurrentUploads","debugMode"];
+
+/* ============================ UTILITIES ============================ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const clean = (s, max = 5000) => String(s ?? "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim().slice(0, max);
+const sleep = (ms, signal) => new Promise((res, rej) => {
+  if (signal?.aborted) return rej(new StorageError("ABORTED", "Aborted"));
+  const t = setTimeout(res, ms);
+  signal?.addEventListener("abort", () => { clearTimeout(t); rej(new StorageError("ABORTED", "Aborted")); }, { once: true });
+});
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+const uid = prefix => {
+  const t = Date.now().toString(32).toUpperCase().padStart(9, "0");
+  const r = crypto.getRandomValues(new Uint8Array(12));
+  return `${prefix}_01${t}${Array.from(r, b => (b % 32).toString(32)).join("").toUpperCase()}`;
+};
+const fmtBytes = n => { if (!Number.isFinite(n)) return "—"; const u = ["B","KB","MB","GB","TB"]; let i = 0; while (n >= 1024 && i < 4) { n /= 1024; i++; } return `${n >= 100 || i === 0 ? Math.round(n) : n.toFixed(1)} ${u[i]}`; };
+const fmtDur = s => { if (!Number.isFinite(s) || s < 0) return "0:00"; s = Math.floor(s); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(x).padStart(2, "0"); };
+const fmtEta = s => !Number.isFinite(s) || s <= 0 ? "—" : s < 60 ? `${Math.ceil(s)}s` : s < 3600 ? `${Math.floor(s / 60)}m ${Math.ceil(s % 60)}s` : `${Math.floor(s / 3600)}h ${Math.floor(s % 3600 / 60)}m`;
+const fmtNum = n => n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, "") + "K" : String(n | 0);
+const ago = ts => {
+  if (!ts) return ""; const d = (Date.now() - new Date(ts).getTime()) / 1000;
+  const u = [[31536000, "year"], [2592000, "month"], [604800, "week"], [86400, "day"], [3600, "hour"], [60, "minute"]];
+  for (const [s, n] of u) if (d >= s) { const v = Math.floor(d / s); return `${v} ${n}${v > 1 ? "s" : ""} ago`; }
+  return "just now";
+};
+const slugify = s => clean(s, 120).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "").slice(0, 60) || "untitled";
+const safeUrl = u => { try { const x = new URL(u, location.href); return ["https:", "http:", "blob:"].includes(x.protocol) ? x.href : ""; } catch { return ""; } };
+const initial = s => (clean(s, 40).match(/\p{L}|\p{N}/u) || ["?"])[0].toUpperCase();
+const ic = (n, c = "") => `<svg class="ic ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const normEndpoint = u => { u = clean(u, 400); return u ? u.replace(/\/+$/, "") : ""; };
+
+const Log = {
+  ring: [],
+  push(level, tag, a) { this.ring.push({ t: Date.now(), level, tag, msg: a.map(x => x instanceof Error ? x.message : typeof x === "string" ? x : JSON.stringify(x)).join(" ") }); if (this.ring.length > 200) this.ring.shift(); },
+  log(tag, ...a) { this.push("log", tag, a); if (CFG.debugMode) console.log(`[${tag}]`, ...a); },
+  err(tag, ...a) { this.push("error", "ERROR", a); console.error(`[${tag}]`, ...a); }
+};
+
+class Emitter {
+  constructor() { this.h = {}; }
+  on(e, f) { (this.h[e] ||= new Set()).add(f); return () => this.h[e].delete(f); }
+  emit(e, d) { (this.h[e] || []).forEach(f => { try { f(d); } catch (x) { Log.err("EMIT", e, x); } }); }
+}
+const Bus = new Emitter();
+
+class StorageError extends Error {
+  constructor(code, message, extra) { super(message); this.name = "StorageError"; this.code = code; Object.assign(this, extra || {}); }
+  get retryable() { return ["NETWORK", "RATE_LIMIT", "SERVER"].includes(this.code); }
+}
+
+/* ============================ IndexedDBStore ============================ */
+class IndexedDBStore {
+  static STORES = { kv: null, uploads: "id", blobs: null, items: "id", posts: "id", users: "id", follows: "key", likes: "key", reports: "id", notifications: "id", history: "id", stats: "id", analytics: "id", appeals: "id" };
+  constructor() { this.db = null; this.mem = new Map(); this.available = false; this.error = ""; }
+  async open() {
+    if (!("indexedDB" in window)) return this._fallback("IndexedDB is not supported in this browser");
+    try {
+      this.db = await new Promise((res, rej) => {
+        const r = indexedDB.open("zeluni", 1);
+        r.onupgradeneeded = () => { const d = r.result; for (const [n, k] of Object.entries(IndexedDBStore.STORES)) if (!d.objectStoreNames.contains(n)) d.createObjectStore(n, k ? { keyPath: k } : undefined); };
+        r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); r.onblocked = () => rej(new Error("IndexedDB blocked by another tab"));
+      });
+      this.db.onversionchange = () => this.db.close();
+      this.available = true;
+    } catch (e) { this._fallback(e.message); }
+  }
+  _fallback(msg) { this.db = null; this.available = false; this.error = msg; for (const n of Object.keys(IndexedDBStore.STORES)) this.mem.set(n, new Map()); Log.err("IDB", msg); }
+  _req(store, mode, fn) {
+    return new Promise((res, rej) => {
+      const tx = this.db.transaction(store, mode); const r = fn(tx.objectStore(store));
+      tx.oncomplete = () => res(r && r.result); tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error || new Error("Transaction aborted"));
+    });
+  }
+  get(s, k) { return this.db ? this._req(s, "readonly", o => o.get(k)) : Promise.resolve(this.mem.get(s).get(k)); }
+  put(s, v, k) {
+    const kp = IndexedDBStore.STORES[s];
+    if (!this.db) { this.mem.get(s).set(kp ? v[kp] : k, v); return Promise.resolve(); }
+    return this._req(s, "readwrite", o => kp ? o.put(v) : o.put(v, k));
+  }
+  del(s, k) { return this.db ? this._req(s, "readwrite", o => o.delete(k)) : (this.mem.get(s).delete(k), Promise.resolve()); }
+  all(s) { return this.db ? this._req(s, "readonly", o => o.getAll()).then(r => r || []) : Promise.resolve([...this.mem.get(s).values()]); }
+  keys(s) { return this.db ? this._req(s, "readonly", o => o.getAllKeys()).then(r => r || []) : Promise.resolve([...this.mem.get(s).keys()]); }
+  async clearAll() { if (!this.db) { for (const m of this.mem.values()) m.clear(); return; } for (const n of Object.keys(IndexedDBStore.STORES)) await this._req(n, "readwrite", o => o.clear()); }
+}
+const db = new IndexedDBStore();
+
+async function loadConfigOverrides() {
+  try { const o = await db.get("kv", "config") || {}; for (const k of EDITABLE_CFG) if (k in o) CFG[k] = o[k]; } catch (e) { Log.err("CONFIG", e); }
+  CFG.centralUploadEndpoint = normEndpoint(CFG.centralUploadEndpoint);
+  Log.log("CONFIG", "loaded");
+}
+async function saveConfigOverrides(patch) {
+  const cur = await db.get("kv", "config") || {};
+  for (const k of EDITABLE_CFG) if (k in patch) cur[k] = patch[k];
+  await db.put("kv", cur, "config");
+  for (const k of EDITABLE_CFG) if (k in cur) CFG[k] = cur[k];
+  CFG.centralUploadEndpoint = normEndpoint(CFG.centralUploadEndpoint);
+}
+
+/* ============================ Constants / Model ============================ */
+const S = Object.freeze({ QUEUED: "QUEUED", PREPARING: "PREPARING", COMPRESSING: "COMPRESSING", UPLOAD_READY: "UPLOAD_READY", UPLOADING: "UPLOADING", PAUSED: "PAUSED", RECONNECTING: "RECONNECTING", UPLOADED: "UPLOADED", VERIFYING: "VERIFYING", PROCESSING: "PROCESSING", READY: "READY", PUBLISHING: "PUBLISHING", PUBLISHED: "PUBLISHED", FAILED: "FAILED", CANCELLED: "CANCELLED", REJECTED: "REJECTED" });
+const MOD = Object.freeze({ PENDING: "PENDING", APPROVED: "APPROVED", REJECTED: "REJECTED", QUARANTINED: "QUARANTINED", REMOVED: "REMOVED" });
+const MODE = Object.freeze({ LOCAL: "LOCAL_DEVELOPMENT", DRIVE: "GOOGLE_DRIVE_DIRECT", CENTRAL: "CENTRAL_PRODUCTION" });
+const VIS = ["public", "unlisted", "private"];
+
+const Model = {
+  str: (v, m) => clean(v, m),
+  num: v => Number.isFinite(+v) && +v >= 0 ? +v : 0,
+  item(r) {
+    if (!r || typeof r !== "object" || !/^[\w-]{6,80}$/.test(String(r.id || ""))) return null;
+    const type = r.type === "image" ? "image" : r.type === "video" ? "video" : null; if (!type) return null;
+    const urls = {}; for (const k of ["playback", "original", "thumbnail", "large", "medium"]) if (r.urls?.[k]) { const u = safeUrl(r.urls[k]); if (u) urls[k] = u; }
+    return {
+      id: r.id, ownerId: clean(r.ownerId, 80), type, title: clean(r.title, 150) || "Untitled", description: clean(r.description, 5000),
+      tags: Array.isArray(r.tags) ? r.tags.map(t => clean(t, 32).toLowerCase()).filter(Boolean).slice(0, 15) : [], category: clean(r.category, 40) || "General",
+      filename: clean(r.filename, 200), mimeType: clean(r.mimeType, 100), originalSize: Model.num(r.originalSize), playbackSize: Model.num(r.playbackSize),
+      width: Model.num(r.width), height: Model.num(r.height), duration: Model.num(r.duration),
+      thumbnailFileId: clean(r.thumbnailFileId, 200), originalFileId: clean(r.originalFileId, 200), playbackFileId: clean(r.playbackFileId, 200), driveFileId: clean(r.driveFileId, 200),
+      imageFileIds: r.imageFileIds && typeof r.imageFileIds === "object" ? { large: clean(r.imageFileIds.large, 200), medium: clean(r.imageFileIds.medium, 200), thumbnail: clean(r.imageFileIds.thumbnail, 200) } : {},
+      variants: Array.isArray(r.variants) ? r.variants.slice(0, 8).map(v => ({ label: clean(v.label, 20), fileId: clean(v.fileId, 200), url: safeUrl(v.url || ""), width: Model.num(v.width), height: Model.num(v.height), size: Model.num(v.size) })) : [],
+      captions: Array.isArray(r.captions) ? r.captions.slice(0, 6).map(c => ({ lang: clean(c.lang, 10), label: clean(c.label, 30), url: safeUrl(c.url || "") })).filter(c => c.url) : [],
+      urls, visibility: VIS.includes(r.visibility) ? r.visibility : "public", downloadEnabled: !!r.downloadEnabled, ageRestricted: r.ageRestricted !== false,
+      processingStatus: clean(r.processingStatus, 40), moderationStatus: Object.values(MOD).includes(r.moderationStatus) ? r.moderationStatus : MOD.PENDING,
+      moderation: { notes: Array.isArray(r.moderation?.notes) ? r.moderation.notes.slice(-20).map(n => ({ at: clean(n.at, 40), by: clean(n.by, 60), text: clean(n.text, 500) })) : [], appeals: Array.isArray(r.moderation?.appeals) ? r.moderation.appeals.slice(-5) : [] },
+      createdAt: clean(r.createdAt, 40), publishedAt: clean(r.publishedAt, 40), storage: ["local", "drive", "central"].includes(r.storage) ? r.storage : "central",
+      postId: clean(r.postId, 80), checksum: clean(r.checksum, 100), stats: { views: Model.num(r.stats?.views), likes: Model.num(r.stats?.likes) }
+    };
+  },
+  post(r) {
+    if (!r || typeof r !== "object" || !/^[\w-]{6,80}$/.test(String(r.id || ""))) return null;
+    return { id: r.id, authorId: clean(r.authorId, 80), body: clean(r.body, 10000), assets: Array.isArray(r.assets) ? r.assets.map(a => clean(a, 80)).filter(Boolean).slice(0, 40) : [], type: ["TEXT", "IMAGE", "VIDEO", "MIXED"].includes(r.type) ? r.type : "TEXT", visibility: VIS.includes(r.visibility) ? r.visibility : "public", moderationStatus: Object.values(MOD).includes(r.moderationStatus) ? r.moderationStatus : MOD.PENDING, createdAt: clean(r.createdAt, 40), updatedAt: clean(r.updatedAt, 40), storage: ["local", "drive", "central"].includes(r.storage) ? r.storage : "central" };
+  },
+  user(r) {
+    if (!r || typeof r !== "object" || !/^[\w-]{6,80}$/.test(String(r.id || ""))) return null;
+    const un = clean(r.username, 24).toLowerCase(); if (!/^[a-z0-9_.]{3,24}$/.test(un)) return null;
+    return { id: r.id, username: un, displayName: clean(r.displayName, 50) || un, bio: clean(r.bio, 500), avatarUrl: safeUrl(r.avatarUrl || ""), coverUrl: safeUrl(r.coverUrl || ""), createdAt: clean(r.createdAt, 40), stats: { followers: r.stats?.followers == null ? null : Model.num(r.stats.followers), following: r.stats?.following == null ? null : Model.num(r.stats.following) } };
+  }
+};
+
+/* ============================ HTTP HELPERS ============================ */
+function classifyHttp(res, ctx) {
+  const { status } = res; let reason = "", msg = "";
+  try { const j = JSON.parse(res.text || "{}"); reason = j?.error?.errors?.[0]?.reason || j?.error?.code || ""; msg = j?.error?.message || j?.message || ""; } catch { /* non-JSON body */ }
+  msg = msg || `HTTP ${status}`;
+  const ra = parseInt(res.getHeader?.("Retry-After") || "", 10); const extra = { status, retryAfter: Number.isFinite(ra) ? ra : 0 };
+  if (status === 401) return new StorageError("AUTH_EXPIRED", "Authentication expired — reconnect and retry", extra);
+  if (status === 403) {
+    if (/ratelimit/i.test(reason)) return new StorageError("RATE_LIMIT", "Rate limit reached — slowing down", extra);
+    if (/quota/i.test(reason + msg)) return new StorageError("QUOTA", "Storage quota exceeded: " + msg, extra);
+    return new StorageError("PERMISSION_DENIED", "Permission denied: " + msg, extra);
+  }
+  if (status === 404 || status === 410) return new StorageError(ctx === "session" ? "SESSION_EXPIRED" : "NOT_FOUND", ctx === "session" ? "Upload session expired" : "Not found: " + msg, extra);
+  if (status === 408 || status === 429) return new StorageError("RATE_LIMIT", "Server asked us to slow down (" + status + ")", extra);
+  if (status === 413) return new StorageError("FILE_TOO_LARGE", "File too large for storage: " + msg, extra);
+  if (status >= 500) return new StorageError("SERVER", "Storage service error (" + status + ")", extra);
+  return new StorageError("BAD_REQUEST", msg, extra);
+}
+function xhrSend({ method, url, headers = {}, body = null, signal, onProgress }) {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) return reject(new StorageError("ABORTED", "Aborted"));
+    const x = new XMLHttpRequest(); x.open(method, url, true);
+    for (const [k, v] of Object.entries(headers)) x.setRequestHeader(k, v);
+    if (x.upload && onProgress) x.upload.onprogress = e => { if (e.lengthComputable) onProgress(e.loaded); };
+    x.onload = () => { cleanup(); resolve({ status: x.status, text: x.responseText, getHeader: n => x.getResponseHeader(n) }); };
+    x.onerror = () => { cleanup(); reject(new StorageError("NETWORK", "Network error")); };
+    x.ontimeout = () => { cleanup(); reject(new StorageError("NETWORK", "Request timed out")); };
+    x.onabort = () => { cleanup(); reject(new StorageError("ABORTED", "Aborted")); };
+    const onAbort = () => x.abort(); signal?.addEventListener("abort", onAbort, { once: true });
+    function cleanup() { signal?.removeEventListener("abort", onAbort); }
+    x.send(body);
+  });
+}
+async function fetchJson(url, { method = "GET", headers = {}, body, signal, ctx, timeout = 30000, raw = false } = {}) {
+  const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(new Error("timeout")), timeout);
+  const onAbort = () => ctl.abort(); signal?.addEventListener("abort", onAbort, { once: true });
+  let r;
+  try { r = await fetch(url, { method, headers, body, signal: ctl.signal, cache: "no-store" }); }
+  catch (e) { if (signal?.aborted) throw new StorageError("ABORTED", "Aborted"); throw new StorageError("NETWORK", ctl.signal.aborted ? "Request timed out" : "Network error — " + (e.message || "request failed")); }
+  finally { clearTimeout(t); signal?.removeEventListener("abort", onAbort); }
+  const text = await r.text().catch(() => "");
+  if (!r.ok) throw classifyHttp({ status: r.status, text, getHeader: n => r.headers.get(n) }, ctx);
+  if (raw) return text;
+  if (!text) return {};
+  try { return JSON.parse(text); } catch { throw new StorageError("SERVER", "Server returned invalid JSON"); }
+}
+const loadScript = (url) => new Promise((res, rej) => {
+  if ($(`script[data-src="${url}"]`)) { const s = $(`script[data-src="${url}"]`); if (s.dataset.done) return res(); s.addEventListener("load", res); s.addEventListener("error", () => rej(new Error("Failed to load " + url))); return; }
+  const s = document.createElement("script"); s.src = url; s.async = true; s.dataset.src = url;
+  s.onload = () => { s.dataset.done = "1"; res(); }; s.onerror = () => { s.remove(); rej(new Error("Failed to load " + url)); }; document.head.appendChild(s);
+});
+const backoff = n => Math.min(60000, 1000 * 2 ** (n - 1)) * (0.6 + Math.random() * 0.4);
+const EXT = { "video/mp4": "mp4", "video/quicktime": "mov", "video/webm": "webm", "video/x-matroska": "mkv", "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" };
+
+/* ============================ AUTH ============================ */
+class GoogleAuth extends Emitter {
+  constructor() { super(); this.state = "disconnected"; this.error = ""; this.token = null; this.expiresAt = 0; this.client = null; }
+  get configured() { return !!CFG.googleClientId; }
+  get connected() { return !!this.token && Date.now() < this.expiresAt - 30000; }
+  setState(s, err = "") { this.state = s; this.error = err; Log.log("AUTH", s, err); this.emit("state", this); Bus.emit("google", this); }
+  async loadGis() { if (window.google?.accounts?.oauth2) return; try { await loadScript("https://accounts.google.com/gsi/client"); } catch { throw new StorageError("NETWORK", "Could not load Google Identity Services"); } }
+  async connect({ prompt } = {}) {
+    if (!this.configured) throw new StorageError("NOT_CONFIGURED", "Google OAuth client ID is not configured");
+    this.setState("connecting");
+    try { await this.loadGis(); } catch (e) { this.setState("error", e.message); throw e; }
+    return new Promise((resolve, reject) => {
+      const scope = CFG.driveScope;
+      this.client = google.accounts.oauth2.initTokenClient({
+        client_id: CFG.googleClientId, scope,
+        callback: resp => {
+          if (resp.error) { const denied = resp.error === "access_denied"; this.setState(denied ? "denied" : "error", resp.error_description || resp.error); return reject(new StorageError(denied ? "PERMISSION_DENIED" : "AUTH_EXPIRED", denied ? "Google Drive permission was denied" : "Authorization error: " + resp.error)); }
+          if (!google.accounts.oauth2.hasGrantedAllScopes(resp, scope)) { this.setState("denied", "Required Drive permission not granted"); return reject(new StorageError("PERMISSION_DENIED", "Required Drive permission was not granted")); }
+          this.token = resp.access_token; this.expiresAt = Date.now() + (+resp.expires_in || 3600) * 1000; this.setState("connected"); resolve(this.token);
+        },
+        error_callback: e => { const m = e.type === "popup_closed" ? "Authorization window was closed" : e.type === "popup_failed_to_open" ? "Popup blocked — allow popups and retry" : String(e.message || e.type); this.setState("error", m); reject(new StorageError("AUTH_EXPIRED", m)); }
+      });
+      this.client.requestAccessToken({ prompt: prompt ?? (this.token ? "" : "consent") });
+    });
+  }
+  async getToken() {
+    if (this.connected) return this.token;
+    if (!this.configured) throw new StorageError("NOT_CONFIGURED", "Google Drive is not configured");
+    if (this.token) this.setState("expired", "Access token expired");
+    try { return await this.connect({ prompt: "" }); }
+    catch (e) { if (this.state !== "denied") this.setState("expired", "Authorization expired — reconnect Google Drive"); throw new StorageError("AUTH_EXPIRED", "Google authorization expired — reconnect Google Drive"); }
+  }
+  disconnect() { try { if (this.token && window.google?.accounts?.oauth2) google.accounts.oauth2.revoke(this.token, () => {}); } catch { /* ignore */ } this.token = null; this.expiresAt = 0; this.setState("disconnected"); }
+}
+
+class AuthManager extends Emitter {
+  constructor() { super(); this.user = null; this.google = new GoogleAuth(); }
+  async init() { const id = await db.get("kv", "session.userId"); this.user = id ? (await db.get("users", id)) || null : null; }
+  profiles() { return db.all("users"); }
+  async create({ username, displayName, bio, avatar, cover }) {
+    username = clean(username, 24).toLowerCase().replace(/^@/, "");
+    if (!/^[a-z0-9_.]{3,24}$/.test(username)) throw new Error("Username must be 3–24 characters: a–z, 0–9, _ or .");
+    if ((await this.profiles()).some(u => u.username === username) || App.manifest.userByName(username)) throw new Error("That username is already taken");
+    const user = { id: uid("user"), username, displayName: clean(displayName, 50) || username, bio: clean(bio, 500), createdAt: new Date().toISOString(), hasAvatar: false, hasCover: false };
+    if (avatar) { await db.put("blobs", await MediaProcessor.resize(avatar, 256, 256, "image/jpeg", 0.85, true), "avatar:" + user.id); user.hasAvatar = true; }
+    if (cover) { await db.put("blobs", await MediaProcessor.resize(cover, 1280, 720, "image/jpeg", 0.8, false), "cover:" + user.id); user.hasCover = true; }
+    await db.put("users", user); await this.signIn(user.id); return user;
+  }
+  async update(patch) {
+    const u = this.user; if (!u) throw new Error("Not signed in");
+    u.displayName = clean(patch.displayName, 50) || u.username; u.bio = clean(patch.bio, 500);
+    if (patch.avatar) { await db.put("blobs", await MediaProcessor.resize(patch.avatar, 256, 256, "image/jpeg", 0.85, true), "avatar:" + u.id); u.hasAvatar = true; Media.forget("avatar:" + u.id); }
+    if (patch.cover) { await db.put("blobs", await MediaProcessor.resize(patch.cover, 1280, 720, "image/jpeg", 0.8, false), "cover:" + u.id); u.hasCover = true; Media.forget("cover:" + u.id); }
+    await db.put("users", u); this.emit("change", u);
+  }
+  async signIn(id) { const u = await db.get("users", id); if (!u) throw new Error("Profile not found"); this.user = u; await db.put("kv", id, "session.userId"); this.emit("change", u); }
+  async signOut() { this.user = null; await db.del("kv", "session.userId"); this.emit("change", null); }
+}
+
+/* ============================ STORAGE ADAPTERS ============================ */
+class StorageAdapter {
+  get mode() { return ""; }
+  status() { return { ready: false, message: "Storage unavailable", tone: "bad" }; }
+  async assertReady() { const s = this.status(); if (!s.ready) throw new StorageError("NOT_CONFIGURED", s.message); }
+  async begin() { throw new StorageError("NOT_CONFIGURED", "Not implemented"); }
+  async sendChunk() { throw new StorageError("NOT_CONFIGURED", "Not implemented"); }
+  async queryOffset() { throw new StorageError("NOT_CONFIGURED", "Not implemented"); }
+  async complete(task, result) { return result; }
+  async verify() {}
+  async processStatus() { return null; }
+  async cancel() {}
+  async publishItem(item) { return { item }; }
+  async publishPost(post) { return { post }; }
+  async report() { return { ok: false, reason: "Reports are stored on this device only" }; }
+  async loadManifest() { return null; }
+}
+
+class LocalDevelopmentStorage extends StorageAdapter {
+  get mode() { return MODE.LOCAL; }
+  status() {
+    if (CFG.productionMode) return { ready: false, message: "Production mode is on but no shared storage is configured", tone: "bad" };
+    return { ready: true, message: "Local development mode — data is not shared between users.", tone: "warn" };
+  }
+  async begin(task) {
+    if (task.rec.size > CFG.localMaxBytes) throw new StorageError("FILE_TOO_LARGE", `Local development storage is limited to ${fmtBytes(CFG.localMaxBytes)} per file. Configure Google Drive or a central endpoint for large files.`);
+    return { sessionRef: "local:" + task.rec.id, offset: 0, chunkSize: Math.max(task.rec.size, 1) };
+  }
+  async sendChunk(task, start, end, blob, signal, onProgress) {
+    if (signal.aborted) throw new StorageError("ABORTED", "Aborted");
+    try { await db.put("blobs", task.file, "asset:" + task.rec.id); } catch (e) { throw new StorageError("QUOTA", "Browser storage refused the file: " + e.message); }
+    onProgress(blob.size);
+    return { offset: task.rec.size, done: true, result: { driveFileId: task.rec.id, size: task.rec.size } };
+  }
+  async queryOffset(task) { const b = await db.get("blobs", "asset:" + task.rec.id); return b ? { offset: task.rec.size, done: true, result: { driveFileId: task.rec.id, size: b.size } } : { offset: 0, done: false }; }
+  async verify(task) { const b = await db.get("blobs", "asset:" + task.rec.id); if (!b || b.size !== task.rec.size) throw new StorageError("SERVER", "Stored copy is missing or has a different size"); }
+  async cancel(task) { await db.del("blobs", "asset:" + task.rec.id); }
+  async publishItem(item) { return { item }; }
+}
+
+class GoogleDriveStorage extends StorageAdapter {
+  constructor() { super(); this.folders = {}; }
+  get mode() { return MODE.DRIVE; }
+  status() {
+    if (!CFG.googleClientId) return { ready: false, message: "Google Drive is not configured", tone: "bad" };
+    if (!CFG.googleDriveFolderId) return { ready: false, message: "Google Drive folder ID is not configured", tone: "bad" };
+    if (!App.auth.google.connected) return { ready: false, message: "Connect Google Drive to upload", tone: "warn", action: "connect" };
+    return { ready: true, message: "Google Drive direct mode — uploads go to the folder you authorized.", tone: "ok" };
+  }
+  async api(path, { method = "GET", params, json, signal } = {}) {
+    const token = await App.auth.google.getToken();
+    return fetchJson(`https://www.googleapis.com/drive/v3/${path}${params ? "?" + new URLSearchParams(params) : ""}`, { method, signal, headers: { Authorization: `Bearer ${token}`, ...(json ? { "Content-Type": "application/json" } : {}) }, body: json ? JSON.stringify(json) : undefined });
+  }
+  async folderFor(role, kind) {
+    const name = role === "original" ? (kind === "image" ? "images" : "originals") : ({ playback: "playback", thumbnail: "thumbnails", image_large: "images", image_medium: "images", image_thumb: "images", manifest: "manifests", post: "posts" }[role] || "originals");
+    const root = CFG.googleDriveFolderId, key = root + "/" + name;
+    if (!this.folders[key]) { const c = await db.get("kv", "driveFolders"); if (c) Object.assign(this.folders, c); }
+    if (this.folders[key]) return this.folders[key];
+    const q = `name='${name}' and '${root}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+    const r = await this.api("files", { params: { q, fields: "files(id,name)", supportsAllDrives: "true", includeItemsFromAllDrives: "true" } });
+    let id = r.files?.[0]?.id;
+    if (!id) id = (await this.api("files", { method: "POST", params: { supportsAllDrives: "true", fields: "id" }, json: { name, mimeType: "application/vnd.google-apps.folder", parents: [root] } })).id;
+    this.folders[key] = id; await db.put("kv", this.folders, "driveFolders"); return id;
+  }
+  async begin(task) {
+    const rec = task.rec, token = await App.auth.google.getToken();
+    const parent = await this.folderFor(rec.role, rec.kind);
+    const res = await xhrSend({
+      method: "POST", url: "https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&supportsAllDrives=true&fields=id,name,size,md5Checksum",
+      headers: { Authorization: "Bearer " + token, "Content-Type": "application/json; charset=UTF-8", "X-Upload-Content-Type": rec.mime, "X-Upload-Content-Length": String(rec.size) },
+      body: JSON.stringify({ name: `${rec.id}.${EXT[rec.mime] || "bin"}`, parents: [parent], mimeType: rec.mime, appProperties: { zeluniAsset: rec.id, role: rec.role } })
+    });
+    if (res.status !== 200) throw classifyHttp(res);
+    const loc = res.getHeader("Location"); if (!loc) throw new StorageError("SERVER", "Drive did not return a resumable session URI");
+    const chunk = Math.max(262144, Math.floor(CFG.uploadChunkSize / 262144) * 262144);
+    return { sessionRef: loc, offset: 0, chunkSize: chunk };
+  }
+  parseRange(res) { const r = res.getHeader("Range"); if (!r) return 0; const m = /bytes=0-(\d+)/.exec(r); return m ? +m[1] + 1 : 0; }
+  done(res) { let j = {}; try { j = JSON.parse(res.text || "{}"); } catch { /* empty */ } return { driveFileId: j.id, size: +j.size || 0, md5: j.md5Checksum }; }
+  async sendChunk(task, start, end, blob, signal, onProgress) {
+    const total = task.rec.size;
+    const res = await xhrSend({ method: "PUT", url: task.rec.sessionRef, headers: { "Content-Range": `bytes ${start}-${end - 1}/${total}` }, body: blob, signal, onProgress });
+    if (res.status === 308) return { offset: this.parseRange(res), done: false };
+    if (res.status === 200 || res.status === 201) return { offset: total, done: true, result: this.done(res) };
+    throw classifyHttp(res, "session");
+  }
+  async queryOffset(task) {
+    const total = task.rec.size;
+    const res = await xhrSend({ method: "PUT", url: task.rec.sessionRef, headers: { "Content-Range": `bytes */${total}` }, body: null });
+    if (res.status === 308) return { offset: this.parseRange(res), done: false };
+    if (res.status === 200 || res.status === 201) return { offset: total, done: true, result: this.done(res) };
+    throw classifyHttp(res, "session");
+  }
+  async verify(task) {
+    const id = task.rec.driveFileId; if (!id) throw new StorageError("SERVER", "Drive did not return a file ID");
+    const f = await this.api(`files/${encodeURIComponent(id)}`, { params: { fields: "id,size,trashed", supportsAllDrives: "true" } });
+    if (f.trashed) throw new StorageError("SERVER", "File is in the Drive trash");
+    if (+f.size !== task.rec.size) throw new StorageError("SERVER", `Drive reports ${f.size} bytes, expected ${task.rec.size}`);
+  }
+  async cancel(task) { const u = task.rec.sessionRef; if (u && /^https:/.test(u) && !task.rec.driveFileId) { try { await xhrSend({ method: "DELETE", url: u }); } catch { /* best effort */ } } }
+  async publishItem(item) {
+    const token = await App.auth.google.getToken(), parent = await this.folderFor("manifest"), b = "zeluni" + Date.now();
+    const body = `--${b}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify({ name: item.id + ".json", parents: [parent], mimeType: "application/json" })}\r\n--${b}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(item)}\r\n--${b}--`;
+    const res = await xhrSend({ method: "POST", url: "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id&supportsAllDrives=true", headers: { Authorization: "Bearer " + token, "Content-Type": `multipart/related; boundary=${b}` }, body });
+    if (res.status !== 200) throw classifyHttp(res);
+    if (CFG.drivePublicSharing) for (const id of [item.originalFileId, item.playbackFileId, item.thumbnailFileId, ...Object.values(item.imageFileIds || {})].filter(Boolean)) await this.api(`files/${encodeURIComponent(id)}/permissions`, { method: "POST", params: { supportsAllDrives: "true" }, json: { role: "reader", type: "anyone" } });
+    return { item, manifestFileId: JSON.parse(res.text).id };
+  }
+}
+
+class CentralUploadStorage extends StorageAdapter {
+  get mode() { return MODE.CENTRAL; }
+  get ep() { return CFG.centralUploadEndpoint; }
+  status() {
+    if (!this.ep) return { ready: false, message: "Central storage endpoint not configured", tone: "bad" };
+    if (!/^https:\/\/|^http:\/\/localhost|^http:\/\/127\./.test(this.ep)) return { ready: false, message: "Central endpoint must use HTTPS", tone: "bad" };
+    return { ready: true, message: "Central production storage", tone: "ok" };
+  }
+  hdrs(extra = {}) { const h = { "X-Zeluni-User": App.auth.user?.id || "", ...extra }; if (App.auth.google.connected) h.Authorization = "Bearer " + App.auth.google.token; return h; }
+  call(path, { method = "GET", json, signal, ctx } = {}) { return fetchJson(this.ep + path, { method, signal, ctx, headers: this.hdrs(json ? { "Content-Type": "application/json" } : {}), body: json ? JSON.stringify(json) : undefined }); }
+  async begin(task) {
+    const r = task.rec, j = await this.call("/upload/init", { method: "POST", json: { uploadId: r.id, role: r.role, filename: r.filename, size: r.size, mime: r.mime, checksum: r.fingerprint?.value || "", kind: r.kind, groupId: r.groupId || "" } });
+    if (!j.uploadSessionId) throw new StorageError("SERVER", "Endpoint did not return uploadSessionId");
+    return { sessionRef: String(j.uploadSessionId), offset: +j.offset || 0, chunkSize: +j.chunkSize > 0 ? +j.chunkSize : CFG.uploadChunkSize };
+  }
+  async sendChunk(task, start, end, blob, signal, onProgress) {
+    const res = await xhrSend({ method: "POST", url: this.ep + "/upload/chunk", headers: this.hdrs({ "X-Upload-Id": task.rec.sessionRef, "Content-Range": `bytes ${start}-${end - 1}/${task.rec.size}`, "Content-Type": "application/octet-stream" }), body: blob, signal, onProgress });
+    if (res.status < 200 || res.status > 299) throw classifyHttp(res, "session");
+    let j = {}; try { j = JSON.parse(res.text || "{}"); } catch { throw new StorageError("SERVER", "Endpoint returned invalid chunk response"); }
+    if (!Number.isFinite(+j.offset)) throw new StorageError("SERVER", "Endpoint chunk response lacks offset");
+    return { offset: +j.offset, done: !!j.done || +j.offset >= task.rec.size, result: j.result };
+  }
+  async queryOffset(task) {
+    const j = await this.call(`/upload/status/${encodeURIComponent(task.rec.sessionRef)}`, { ctx: "session" });
+    const off = +j.offset || 0; return { offset: off, done: off >= task.rec.size && !!j.driveFileId, result: j.driveFileId ? { driveFileId: j.driveFileId, size: task.rec.size } : undefined };
+  }
+  async complete(task, result) {
+    const j = await this.call("/upload/complete", { method: "POST", json: { uploadSessionId: task.rec.sessionRef, uploadId: task.rec.id } });
+    return { ...result, ...j, driveFileId: j.driveFileId || result?.driveFileId };
+  }
+  async verify(task) { const s = task.rec.result?.size; if (s && s !== task.rec.size) throw new StorageError("SERVER", `Server stored ${s} bytes, expected ${task.rec.size}`); if (!task.rec.driveFileId) throw new StorageError("SERVER", "Endpoint did not confirm a file ID"); }
+  async processStatus(task, signal) { return this.call(`/upload/status/${encodeURIComponent(task.rec.sessionRef)}`, { signal, ctx: "session" }); }
+  async publishItem(item) { const j = await this.call("/publish", { method: "POST", json: { item } }); return { item: j.item || item }; }
+  async publishPost(post) { const j = await this.call("/posts", { method: "POST", json: { post } }); return { post: j.post || post }; }
+  async report(report) { await this.call("/report", { method: "POST", json: { report } }); return { ok: true }; }
+  async loadManifest(signal) { return fetchJson(CFG.publicManifestUrl || this.ep + "/manifest", { signal, headers: { Accept: "application/json" } }); }
+}
+
+/* ============================ MEDIA DELIVERY (separate from storage) ============================ */
+class LocalMediaDelivery { async resolve(fileId) { const k = "asset:" + fileId; if (Media.urls.has(k)) return Media.urls.get(k); const b = await db.get("blobs", k); if (!b) return ""; const u = URL.createObjectURL(b); Media.urls.set(k, u); return u; } }
+class DriveMediaDelivery { async resolve(fileId, kind) { const id = encodeURIComponent(fileId); return kind === "thumbnail" || kind === "medium" ? `https://drive.google.com/thumbnail?id=${id}&sz=w${kind === "medium" ? 800 : 640}` : `https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t`; } }
+class CentralMediaDelivery { async resolve(fileId) { return `${CFG.centralUploadEndpoint}/media/${encodeURIComponent(fileId)}`; } }
+class CDNMediaDelivery { async resolve(fileId) { return `${CFG.publicMediaBaseUrl.replace(/\/+$/, "")}/${encodeURIComponent(fileId)}`; } } // future: S3/R2 + CDN
+const Media = {
+  urls: new Map(),
+  forget(key) { const u = this.urls.get(key); if (u?.startsWith("blob:")) URL.revokeObjectURL(u); this.urls.delete(key); },
+  revokeAll() { for (const u of this.urls.values()) if (u.startsWith("blob:")) URL.revokeObjectURL(u); this.urls.clear(); },
+  fileIdFor(item, kind) {
+    const ids = item.imageFileIds || {};
+    switch (kind) {
+      case "playback": return item.playbackFileId || item.originalFileId || item.driveFileId;
+      case "original": return item.originalFileId || item.driveFileId;
+      case "thumbnail": return item.type === "image" ? ids.thumbnail || item.thumbnailFileId : item.thumbnailFileId;
+      case "large": return ids.large || item.originalFileId || item.driveFileId;
+      case "medium": return ids.medium || ids.large || item.originalFileId || item.driveFileId;
+      default: return "";
+    }
+  },
+  async url(item, kind) {
+    if (item.urls?.[kind]) return item.urls[kind];
+    const id = this.fileIdFor(item, kind); if (!id) return "";
+    return this.byFile(item.storage, id, kind);
+  },
+  async byFile(storage, id, kind) {
+    if (storage === "local") return new LocalMediaDelivery().resolve(id);
+    if (CFG.publicMediaBaseUrl) return new CDNMediaDelivery().resolve(id);
+    if (storage === "drive") return new DriveMediaDelivery().resolve(id, kind);
+    return new CentralMediaDelivery().resolve(id);
+  },
+  async avatar(userId, which) {
+    const k = which + ":" + userId; if (this.urls.has(k)) return this.urls.get(k);
+    const b = await db.get("blobs", k); if (!b) return ""; const u = URL.createObjectURL(b); this.urls.set(k, u); return u;
+  }
+};
+
+/* ============================ MEDIA PROCESSING ============================ */
+const MediaProcessor = {
+  async validate(file) {
+    const ext = (file.name.split(".").pop() || "").toLowerCase();
+    const b = new Uint8Array(await file.slice(0, 32).arrayBuffer());
+    const asc = (s, e) => String.fromCharCode(...b.slice(s, e));
+    let kind = null, mime = "", exts = [];
+    if (b[0] === 0xFF && b[1] === 0xD8 && b[2] === 0xFF) { kind = "image"; mime = "image/jpeg"; exts = ["jpg", "jpeg"]; }
+    else if (b[0] === 0x89 && asc(1, 4) === "PNG") { kind = "image"; mime = "image/png"; exts = ["png"]; }
+    else if (asc(0, 3) === "GIF") { kind = "image"; mime = "image/gif"; exts = ["gif"]; }
+    else if (asc(0, 4) === "RIFF" && asc(8, 12) === "WEBP") { kind = "image"; mime = "image/webp"; exts = ["webp"]; }
+    else if (b[0] === 0x1A && b[1] === 0x45 && b[2] === 0xDF && b[3] === 0xA3) { kind = "video"; mime = ext === "mkv" ? "video/x-matroska" : "video/webm"; exts = ["webm", "mkv"]; }
+    else if (asc(4, 8) === "ftyp") { kind = "video"; mime = asc(8, 12) === "qt  " || ext === "mov" ? "video/quicktime" : "video/mp4"; exts = ["mp4", "m4v", "mov"]; }
+    else if (["moov", "mdat", "free", "wide", "skip"].includes(asc(4, 8)) && ext === "mov") { kind = "video"; mime = "video/quicktime"; exts = ["mov"]; }
+    if (!kind) return { ok: false, error: "Unsupported file: the content does not look like MP4/MOV/WebM/MKV or JPG/PNG/WebP/GIF" };
+    if (!exts.includes(ext)) return { ok: false, error: `The extension .${ext || "?"} does not match the file content (${mime})` };
+    if (file.type && file.type.split("/")[0] !== kind && /^(video|image)\//.test(file.type)) return { ok: false, error: "Declared MIME type does not match the file content" };
+    if (file.size <= 0) return { ok: false, error: "File is empty" };
+    if (kind === "video" && file.size > CFG.maxVideoBytes) return { ok: false, error: `Video exceeds the ${fmtBytes(CFG.maxVideoBytes)} limit` };
+    if (kind === "image" && file.size > CFG.maxImageBytes) return { ok: false, error: `Image exceeds the ${fmtBytes(CFG.maxImageBytes)} limit` };
+    return { ok: true, kind, mime, ext };
+  },
+  async fingerprint(file) {
+    const MB = 1048576;
+    if (!crypto.subtle) { let h = 2166136261; const s = `${file.name}|${file.size}|${file.lastModified}`; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return { algo: "fnv1a-weak", mode: "weak (insecure context)", value: (h >>> 0).toString(16) + "-" + file.size, size: file.size, mime: file.type }; }
+    let buf, mode = "full";
+    if (file.size <= 64 * MB) buf = await file.arrayBuffer();
+    else {
+      mode = "sampled"; const parts = [new TextEncoder().encode("zeluni-sampled:" + file.size), new Uint8Array(await file.slice(0, 8 * MB).arrayBuffer())];
+      for (let i = 1; i <= 6; i++) { const o = Math.floor((file.size - MB) * i / 7); parts.push(new Uint8Array(await file.slice(o, o + MB).arrayBuffer())); }
+      parts.push(new Uint8Array(await file.slice(file.size - 8 * MB).arrayBuffer()));
+      buf = new Uint8Array(parts.reduce((a, p) => a + p.length, 0)); let o = 0; for (const p of parts) { buf.set(p, o); o += p.length; }
+    }
+    const h = new Uint8Array(await crypto.subtle.digest("SHA-256", buf));
+    return { algo: "sha256", mode, value: Array.from(h, x => x.toString(16).padStart(2, "0")).join(""), size: file.size, mime: file.type };
+  },
+  probeVideo(file) {
+    return new Promise(res => {
+      const v = document.createElement("video"); v.preload = "metadata"; v.muted = true; const u = URL.createObjectURL(file);
+      const done = r => { clearTimeout(t); URL.revokeObjectURL(u); v.removeAttribute("src"); v.load(); res(r); };
+      const t = setTimeout(() => done(null), 20000);
+      v.onloadedmetadata = () => done({ duration: v.duration, width: v.videoWidth, height: v.videoHeight }); v.onerror = () => done(null); v.src = u;
+    });
+  },
+  videoThumbnail(file, duration) {
+    return new Promise(res => {
+      const v = document.createElement("video"); v.muted = true; v.playsInline = true; v.preload = "auto"; const u = URL.createObjectURL(file);
+      const done = r => { clearTimeout(t); URL.revokeObjectURL(u); v.removeAttribute("src"); v.load(); res(r); };
+      const t = setTimeout(() => done(null), 25000);
+      v.onerror = () => done(null);
+      v.onloadeddata = () => { v.currentTime = Math.min(Math.max(duration * 0.1, 0.1), 5); };
+      v.onseeked = () => {
+        try { const w = Math.min(640, v.videoWidth), h = Math.round(w * v.videoHeight / v.videoWidth); const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").drawImage(v, 0, 0, w, h); c.toBlob(b => done(b), "image/jpeg", 0.82); } catch { done(null); }
+      };
+      v.src = u;
+    });
+  },
+  async resize(src, maxW, maxH, type, q, square) {
+    const bmp = await createImageBitmap(src); let sw = bmp.width, sh = bmp.height, sx = 0, sy = 0;
+    if (square) { const m = Math.min(sw, sh); sx = (sw - m) / 2; sy = (sh - m) / 2; sw = sh = m; }
+    const sc = Math.min(1, maxW / sw, maxH / sh), w = Math.max(1, Math.round(sw * sc)), h = Math.max(1, Math.round(sh * sc));
+    const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").drawImage(bmp, sx, sy, sw, sh, 0, 0, w, h); bmp.close();
+    return new Promise((res, rej) => c.toBlob(b => b ? res(b) : rej(new Error("Image encoding failed")), type, q));
+  },
+  async imageSize(file) { const b = await createImageBitmap(file); const r = { width: b.width, height: b.height }; b.close(); return r; }
+};
+
+class CompressionManager {
+  constructor() { this.ff = null; this.loading = null; this.lastError = ""; }
+  eligible(rec) { return rec.kind === "video" && CFG.enableBrowserCompression && rec.size <= CFG.ffmpegMaxBytes && typeof WebAssembly === "object"; }
+  async load() {
+    if (this.ff) return this.ff; if (this.loading) return this.loading;
+    this.loading = (async () => {
+      await loadScript(CFG.ffmpegScriptUrl);
+      const FF = window.FFmpegWASM?.FFmpeg; if (!FF) throw new Error("FFmpeg library did not initialise");
+      const blobURL = async (u, t) => { const r = await fetch(u); if (!r.ok) throw new Error(`HTTP ${r.status} while loading ${u.split("/").pop()}`); return URL.createObjectURL(new Blob([await r.arrayBuffer()], { type: t })); };
+      const ff = new FF();
+      await ff.load({ classWorkerURL: await blobURL(CFG.ffmpegWorkerUrl, "text/javascript"), coreURL: await blobURL(CFG.ffmpegCoreBase + "/ffmpeg-core.js", "text/javascript"), wasmURL: await blobURL(CFG.ffmpegCoreBase + "/ffmpeg-core.wasm", "application/wasm") });
+      this.ff = ff; return ff;
+    })().finally(() => { this.loading = null; });
+    return this.loading;
+  }
+  async compress(file, { onProgress, signal }) {
+    const ff = await this.load();
+    if (signal.aborted) throw new StorageError("ABORTED", "Aborted");
+    const onAbort = () => { try { ff.terminate(); } catch { /* ignore */ } this.ff = null; };
+    signal.addEventListener("abort", onAbort, { once: true });
+    const prog = ({ progress }) => onProgress?.(Math.min(1, Math.max(0, progress)));
+    ff.on("progress", prog);
+    const inName = "in." + (EXT[file.type] || file.name.split(".").pop() || "mp4");
+    try {
+      await ff.writeFile(inName, new Uint8Array(await file.arrayBuffer()));
+      const code = await ff.exec(["-i", inName, "-vf", "scale=-2:'min(720,ih)'", "-c:v", "libx264", "-preset", "veryfast", "-crf", "28", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", "out.mp4"]);
+      if (code !== 0) throw new Error("FFmpeg exited with code " + code);
+      const data = await ff.readFile("out.mp4");
+      try { await ff.deleteFile(inName); await ff.deleteFile("out.mp4"); } catch { /* ignore */ }
+      return new Blob([data], { type: "video/mp4" });
+    } catch (e) { if (signal.aborted) throw new StorageError("ABORTED", "Aborted"); throw e; }
+    finally { try { ff.off("progress", prog); } catch { /* terminated */ } signal.removeEventListener("abort", onAbort); }
+  }
+}
+
+/* ============================ UPLOAD ENGINE ============================ */
+class UploadTask {
+  constructor(mgr, rec, file) { this.m = mgr; this.rec = rec; this.file = file || null; this.ctl = null; this.running = false; this.slot = false; this.stop = null; this.samples = []; this.live = rec.offset || 0; this.speed = 0; this.previewUrl = ""; this.draft = rec.draft || {}; }
+  get id() { return this.rec.id; }
+  get state() { return this.rec.state; }
+  get pct() { return this.rec.size ? Math.min(100, this.live / this.rec.size * 100) : 0; }
+  get eta() { return this.speed > 0 ? (this.rec.size - this.live) / this.speed : Infinity; }
+  set(state, extra) { Object.assign(this.rec, { state }, extra || {}); if (state !== S.UPLOADING) this.speed = 0; this.m.persist(this); this.m.emit("task", this); }
+  tick(loaded) {
+    this.live = this.rec.offset + loaded; const now = performance.now(); this.samples.push([now, this.live]);
+    while (this.samples.length > 1 && now - this.samples[0][0] > 8000) this.samples.shift();
+    if (this.samples.length > 1) { const a = this.samples[0], b = this.samples[this.samples.length - 1]; this.speed = Math.max(0, (b[1] - a[1]) / ((b[0] - a[0]) / 1000) || 0); }
+    this.m.emit("progress", this);
+  }
+  chk(sig) { if (sig.aborted) throw new StorageError("ABORTED", "Aborted"); }
+  async run() {
+    if (this.running) return; const rec = this.rec;
+    this.running = true; this.slot = true; this.ctl = new AbortController(); this.stop = null; const sig = this.ctl.signal;
+    try {
+      if (!this.file && ["prepare", "compress", "upload"].includes(rec.stage)) throw new StorageError("NEED_FILE", "Select file again to continue");
+      const st = App.storage; await st.assertReady();
+      if (rec.sessionRef && rec.storageMode && rec.storageMode !== st.mode) { rec.sessionRef = null; rec.offset = 0; this.live = 0; Log.log("UPLOAD", "storage mode changed; restarting session"); }
+      if (rec.stage === "prepare") await this.prepare(sig);
+      if (rec.stage === "compress") await this.compress(sig);
+      if (rec.stage === "upload") await this.upload(sig);
+      if (rec.stage === "verify") await this.verify(sig);
+      if (rec.stage === "process") await this.process(sig);
+    } catch (e) { await this.fail(e); }
+    finally { this.running = false; this.slot = false; this.ctl = null; this.m.pump(); }
+  }
+  async fail(e) {
+    if (!(e instanceof StorageError)) { Log.err("UPLOAD", e); e = new StorageError("UNKNOWN", e?.message || String(e)); }
+    const rec = this.rec;
+    if (e.code === "ABORTED") {
+      const r = this.stop || "pause";
+      if (r === "cancel") return this.finishCancel();
+      if (r === "offline") return this.set(S.RECONNECTING, { error: "Offline — upload paused, it will resume from the saved offset when the connection returns" });
+      return this.set(S.PAUSED, { error: "" });
+    }
+    Log.err("UPLOAD", rec.id, e.code, e.message);
+    switch (e.code) {
+      case "NEED_FILE": return this.set(S.PAUSED, { needFile: true, error: e.message });
+      case "REJECTED": return this.set(S.REJECTED, { error: e.message, duplicate: !!e.duplicate });
+      case "AUTH_EXPIRED": return this.set(S.PAUSED, { error: e.message, needAuth: true });
+      case "NOT_CONFIGURED": return this.set(S.PAUSED, { error: e.message });
+      case "NETWORK": if (!navigator.onLine) return this.set(S.RECONNECTING, { error: "Network interrupted — waiting for connection" });
+      // falls through
+      default:
+        this.set(S.FAILED, { error: e.message, errorCode: e.code });
+        if (!rec.hidden) App.notify.add({ type: "upload", title: "Upload failed", text: `${rec.filename}: ${e.message}` });
+    }
+  }
+  async prepare(sig) {
+    const rec = this.rec; this.set(S.PREPARING);
+    for (const c of rec.children || []) this.m.tasks.get(c.id)?.cancel(); rec.children = [];
+    const v = await MediaProcessor.validate(this.file); if (!v.ok) throw new StorageError("REJECTED", v.error);
+    rec.kind = v.kind; rec.mime = v.mime; this.chk(sig);
+    if (!rec.fingerprint) { rec.fingerprint = await MediaProcessor.fingerprint(this.file); this.m.persist(this); }
+    this.chk(sig);
+    if (!rec.allowDuplicate) {
+      const d = App.manifest.findDuplicate(rec.fingerprint.value) || this.m.findDuplicate(this);
+      if (d) throw new StorageError("REJECTED", `Possible duplicate of "${d.title || d.filename}" (same ${rec.fingerprint.mode} SHA-256)`, { duplicate: true });
+    }
+    if (rec.kind === "video") {
+      const meta = await MediaProcessor.probeVideo(this.file); this.chk(sig);
+      rec.meta = meta || {}; rec.warning = meta ? "" : "This browser cannot decode this video, so no thumbnail could be generated. It can still upload; playback needs server processing.";
+      if (meta) { const th = await MediaProcessor.videoThumbnail(this.file, meta.duration); this.chk(sig); if (th) { this.thumbBlob = th; await this.m.createDerived(this, "thumbnail", th, "thumbnail.jpg", "image/jpeg"); } }
+    } else {
+      try {
+        rec.meta = await MediaProcessor.imageSize(this.file); this.chk(sig);
+        if (rec.mime !== "image/gif") {
+          for (const [role, w, q] of [["image_large", 1600, 0.85], ["image_medium", 800, 0.82]]) { const b = await MediaProcessor.resize(this.file, w, w, "image/webp", q); this.chk(sig); await this.m.createDerived(this, role, b, role + ".webp", b.type || "image/webp"); }
+        }
+        const t = await MediaProcessor.resize(this.file, 320, 320, "image/webp", 0.8); this.chk(sig); this.thumbBlob = t; await this.m.createDerived(this, "image_thumb", t, "thumb.webp", t.type || "image/webp");
+      } catch (e) { if (e instanceof StorageError) throw e; rec.warning = "Browser could not decode this image to build responsive variants; the original will be used."; }
+    }
+    rec.stage = "compress"; this.m.persist(this);
+  }
+  async compress(sig) {
+    const rec = this.rec, cm = App.compression;
+    if (rec.kind !== "video" || rec.parentId) { rec.stage = "upload"; return; }
+    if (cm.eligible(rec)) {
+      this.set(S.COMPRESSING, { compression: { status: "running", progress: 0 } });
+      try {
+        const out = await cm.compress(this.file, { signal: sig, onProgress: p => { rec.compression.progress = p; this.m.emit("progress", this); } });
+        if (out.size < rec.size * 0.95) { await this.m.createDerived(this, "playback", out, "playback.mp4", "video/mp4"); rec.compression = { status: "done", progress: 1, playbackSize: out.size }; }
+        else rec.compression = { status: "noBenefit", progress: 1, note: "Compressed output was not smaller; original will be used for playback." };
+      } catch (e) {
+        if (e.code === "ABORTED") throw e;
+        Log.err("COMPRESSION", e); rec.compression = { status: "failed", error: e.message };
+      }
+    } else if (rec.kind === "video") {
+      const central = App.storage.mode === MODE.CENTRAL;
+      rec.compression = rec.size > CFG.ffmpegMaxBytes || !CFG.enableBrowserCompression ? { status: central ? "serverTranscodeRequired" : "unavailable", note: central ? "Large file: playback transcode will be done by the central processing endpoint." : "Not compressed in the browser (size/disabled). The original will be used for playback; large-file transcoding needs the central endpoint." } : { status: "unavailable", note: "WebAssembly unavailable" };
+    }
+    rec.stage = "upload"; this.m.persist(this);
+  }
+  async restartSession(st, msg) {
+    const rec = this.rec; rec.sessionRef = null; rec.offset = 0; this.live = 0; this.set(S.RECONNECTING, { error: msg });
+    const s = await st.begin(this); Object.assign(rec, { sessionRef: s.sessionRef, offset: s.offset || 0, chunkSize: s.chunkSize || CFG.uploadChunkSize, storageMode: st.mode }); this.live = rec.offset; this.m.persist(this);
+  }
+  async upload(sig) {
+    const rec = this.rec, st = App.storage; this.set(S.UPLOAD_READY);
+    if (rec.sessionRef) {
+      try { const q = await st.queryOffset(this); rec.offset = q.offset; this.live = q.offset; if (q.done) return this.finishUpload(q.result, st); }
+      catch (e) { if (e.code === "SESSION_EXPIRED") await this.restartSession(st, "Upload session expired — restarting from the beginning"); else throw e; }
+    }
+    if (!rec.sessionRef) { const s = await st.begin(this); Object.assign(rec, { sessionRef: s.sessionRef, offset: s.offset || 0, chunkSize: s.chunkSize || CFG.uploadChunkSize, storageMode: st.mode }); this.live = rec.offset; this.m.persist(this); }
+    this.set(S.UPLOADING, { error: "" }); this.samples = [];
+    let stalls = 0, retries = 0;
+    for (;;) {
+      this.chk(sig);
+      const start = rec.offset, end = Math.min(start + rec.chunkSize, rec.size);
+      try {
+        const r = await st.sendChunk(this, start, end, this.file.slice(start, end), sig, l => this.tick(l));
+        retries = 0;
+        if (!r.done && r.offset <= start) { if (++stalls >= 3) throw new StorageError("SERVER", "Storage reported no progress after several attempts"); } else stalls = 0;
+        rec.offset = r.done ? rec.size : Math.max(r.offset, 0); this.live = rec.offset; this.m.persist(this); this.m.emit("progress", this);
+        if (r.done) return this.finishUpload(r.result || {}, st);
+      } catch (e) {
+        if (!(e instanceof StorageError) || e.code === "ABORTED") throw e;
+        if (e.code === "AUTH_EXPIRED" && retries < 2) { try { await App.auth.google.getToken(); } catch { throw e; } retries++; continue; }
+        if (e.code === "SESSION_EXPIRED") { await this.restartSession(st, "Upload session expired — restarting from the beginning"); this.set(S.UPLOADING, { error: "" }); continue; }
+        if (e.retryable) {
+          if (!navigator.onLine) throw new StorageError("NETWORK", e.message);
+          if (++retries > CFG.maxRetries) throw e;
+          rec.retryCount = (rec.retryCount || 0) + 1; this.set(S.RECONNECTING, { error: `${e.message} — retry ${retries}/${CFG.maxRetries}` });
+          await sleep(e.retryAfter ? e.retryAfter * 1000 : backoff(retries), sig);
+          try { const q = await st.queryOffset(this); rec.offset = q.offset; this.live = q.offset; if (q.done) return this.finishUpload(q.result, st); }
+          catch (qe) { if (qe.code === "ABORTED") throw qe; if (qe.code === "SESSION_EXPIRED") await this.restartSession(st, "Upload session expired — restarting from the beginning"); }
+          this.set(S.UPLOADING, { error: "" }); continue;
+        }
+        throw e;
+      }
+    }
+  }
+  async finishUpload(result, st) {
+    const rec = this.rec; const full = await st.complete(this, result || {});
+    rec.result = full; rec.driveFileId = full.driveFileId || rec.driveFileId; rec.offset = rec.size; this.live = rec.size; rec.stage = "verify";
+    this.set(S.UPLOADED);
+  }
+  async verify(sig) { this.set(S.VERIFYING); this.chk(sig); await App.storage.verify(this); rec_stage(this, "process"); }
+  async process(sig) {
+    const rec = this.rec; this.slot = false; this.m.pump();
+    if (rec.parentId) { rec.stage = "done"; return this.set(S.READY, { error: "" }); }
+    this.set(S.PROCESSING, { error: "" }); const st = App.storage;
+    if (st.mode === MODE.CENTRAL) {
+      let errs = 0;
+      for (let i = 0; i < 600; i++) {
+        let s; try { s = await st.processStatus(this, sig); errs = 0; } catch (e) { if (e.code === "ABORTED") throw e; if (++errs > 5) throw e; await sleep(3000, sig); continue; }
+        rec.processing = s;
+        if (s.state === "FAILED") throw new StorageError("PROCESSING_FAILED", s.error || "Server-side processing failed");
+        if (s.state === "READY") break;
+        this.m.emit("progress", this); await sleep(3000, sig);
+        if (i === 599) throw new StorageError("PROCESSING_FAILED", "Processing timed out");
+      }
+    } else rec.processing = { state: "READY", note: rec.compression?.status === "done" ? "Browser-compressed playback version uploaded" : "No separate playback version — the original is used for playback" };
+    await this.m.waitChildren(this, sig);
+    rec.stage = "done"; this.set(S.READY, { error: "" });
+    App.notify.add({ type: "upload", title: "Ready to publish", text: rec.filename });
+  }
+  pause(reason = "pause") { if (this.running) { this.stop = reason; this.ctl?.abort(); } else if (this.state === S.QUEUED) this.set(S.PAUSED, { error: "" }); }
+  resume() {
+    if (![S.PAUSED, S.RECONNECTING, S.FAILED].includes(this.state)) return false;
+    if (this.rec.needFile && !this.file) return false;
+    this.set(S.QUEUED, { error: "", needAuth: false }); this.m.pump(); return true;
+  }
+  cancel() { this.stop = "cancel"; if (this.running) this.ctl?.abort(); else this.finishCancel(); }
+  async finishCancel() {
+    for (const c of this.rec.children || []) this.m.tasks.get(c.id)?.cancel();
+    try { await App.storage.cancel(this); } catch (e) { Log.err("UPLOAD", e); }
+    await db.del("blobs", "derived:" + this.id).catch(() => {}); await db.del("blobs", "handle:" + this.id).catch(() => {});
+    this.set(S.CANCELLED, { error: "" }); this.revoke();
+  }
+  retry(opts = {}) { if (![S.FAILED, S.REJECTED].includes(this.state)) return; Object.assign(this.rec, opts); if (this.rec.state === S.REJECTED || opts.reset) { this.rec.stage = this.rec.parentId ? "upload" : "prepare"; this.rec.sessionRef = null; this.rec.offset = 0; this.live = 0; } this.set(S.QUEUED, { error: "" }); this.m.pump(); }
+  revoke() { if (this.previewUrl) { URL.revokeObjectURL(this.previewUrl); this.previewUrl = ""; } }
+  get settled() { return (this.rec.children || []).every(c => [S.READY, S.FAILED, S.CANCELLED, S.REJECTED].includes(this.m.tasks.get(c.id)?.state)); }
+}
+function rec_stage(t, s) { t.rec.stage = s; t.m.persist(t); }
+
+class UploadManager extends Emitter {
+  constructor() { super(); this.tasks = new Map(); }
+  persist(t) { db.put("uploads", { ...t.rec, draft: t.draft }).catch(e => Log.err("IDB", e)); }
+  roots() { return [...this.tasks.values()].filter(t => !t.rec.hidden); }
+  active() { return this.roots().filter(t => ![S.PUBLISHED, S.CANCELLED, S.REJECTED].includes(t.state) && !(t.state === S.READY) && t.state !== S.FAILED); }
+  findDuplicate(task) { for (const t of this.tasks.values()) if (t !== task && !t.rec.hidden && t.rec.fingerprint?.value === task.rec.fingerprint.value && ![S.CANCELLED, S.REJECTED, S.FAILED].includes(t.state)) return { title: t.rec.filename }; return null; }
+  async restore() {
+    const recs = await db.all("uploads");
+    for (const rec of recs) {
+      if ([S.PUBLISHED, S.CANCELLED].includes(rec.state)) { await db.del("uploads", rec.id); continue; }
+      const t = new UploadTask(this, rec, null); this.tasks.set(rec.id, t);
+      if (rec.parentId) { const b = await db.get("blobs", "derived:" + rec.id); if (b) t.file = b; else { t.rec.state = S.FAILED; t.rec.error = "Derived asset was lost; re-prepare the main upload"; continue; } }
+      const needsFile = ["prepare", "compress", "upload"].includes(rec.stage);
+      const live = [S.QUEUED, S.PREPARING, S.COMPRESSING, S.UPLOAD_READY, S.UPLOADING, S.RECONNECTING, S.UPLOADED, S.VERIFYING, S.PROCESSING, S.PAUSED].includes(rec.state);
+      if (!live) continue;
+      if (rec.state === S.PAUSED && !rec.needFile && rec.userPaused) continue;
+      if (needsFile && !t.file) {
+        t.rec.needFile = true; t.rec.state = S.PAUSED; t.rec.error = "Select file again to continue";
+        await this.recoverFromHandle(t, false);
+      } else t.rec.state = S.QUEUED;
+    }
+    this.emit("restored"); this.pump();
+  }
+  async recoverFromHandle(t, gesture) {
+    const h = await db.get("blobs", "handle:" + t.id).catch(() => null); if (!h) return false;
+    try {
+      let p = await h.queryPermission({ mode: "read" }); if (p !== "granted" && gesture) p = await h.requestPermission({ mode: "read" });
+      if (p !== "granted") return false;
+      return await this.attachFile(t, await h.getFile());
+    } catch (e) { Log.log("UPLOAD", "handle recovery failed", e.message); return false; }
+  }
+  async attachFile(t, file) {
+    const r = t.rec;
+    if (file.size !== r.size || file.lastModified !== r.lastModified || file.name !== r.filename) throw new Error("That file does not match the interrupted upload (name, size or modified date differs)");
+    if (r.fingerprint) { const fp = await MediaProcessor.fingerprint(file); if (fp.value !== r.fingerprint.value) throw new Error("File content differs from the original upload"); }
+    t.file = file; r.needFile = false; r.error = ""; t.resume(); this.emit("task", t); return true;
+  }
+  async addFiles(files, opts = {}) {
+    const out = [];
+    for (const f of files) {
+      const rec = { id: uid("asset"), role: "original", groupId: opts.groupId || "", purpose: opts.purpose || "video", filename: clean(f.name, 200), size: f.size, lastModified: f.lastModified, mime: f.type, kind: "", state: S.QUEUED, stage: "prepare", created: Date.now(), retryCount: 0, offset: 0, hidden: false, children: [], error: "" };
+      const t = new UploadTask(this, rec, f); this.tasks.set(rec.id, t);
+      if (opts.handles?.get(f)) await db.put("blobs", opts.handles.get(f), "handle:" + rec.id).catch(() => {});
+      this.persist(t); out.push(t); this.emit("task", t);
+    }
+    this.pump(); return out;
+  }
+  async createDerived(parent, role, blob, filename, mime) {
+    const rec = { id: uid("asset"), role, parentId: parent.id, groupId: parent.rec.groupId, kind: role === "playback" ? "video" : "image", filename, size: blob.size, lastModified: Date.now(), mime, state: S.QUEUED, stage: "upload", hidden: true, created: Date.now(), retryCount: 0, offset: 0, children: [], error: "" };
+    await db.put("blobs", blob, "derived:" + rec.id);
+    const t = new UploadTask(this, rec, blob); this.tasks.set(rec.id, t); (parent.rec.children ||= []).push({ id: rec.id, role });
+    this.persist(t); this.persist(parent); this.pump(); return t;
+  }
+  async replaceThumbnail(parent, file) {
+    const v = await MediaProcessor.validate(file); if (!v.ok || v.kind !== "image") throw new Error(v.error || "Thumbnail must be an image");
+    const blob = await MediaProcessor.resize(file, 1280, 720, "image/jpeg", 0.85);
+    const role = parent.rec.kind === "video" ? "thumbnail" : "image_thumb";
+    for (const c of (parent.rec.children || []).filter(c => c.role === role)) this.tasks.get(c.id)?.cancel();
+    parent.rec.children = (parent.rec.children || []).filter(c => c.role !== role);
+    parent.thumbBlob = blob; return this.createDerived(parent, role, blob, "thumbnail.jpg", "image/jpeg");
+  }
+  async waitChildren(parent, sig) { while (!parent.settled) { this.emit("progress", parent); await sleep(400, sig); } const bad = (parent.rec.children || []).filter(c => this.tasks.get(c.id)?.state === S.FAILED); if (bad.length) parent.rec.warning = `Some generated files failed to upload (${bad.map(c => c.role).join(", ")}). Retry them or publish with what is available.`; }
+  pump() {
+    if (!navigator.onLine) return;
+    let free = CFG.maxConcurrentUploads - [...this.tasks.values()].filter(t => t.running && t.slot).length;
+    const q = [...this.tasks.values()].filter(t => t.state === S.QUEUED && !t.running).sort((a, b) => (a.rec.hidden ? 0 : 1) - (b.rec.hidden ? 0 : 1) || a.rec.created - b.rec.created);
+    for (const t of q) { if (free <= 0) break; t.run(); free--; }
+  }
+  pauseAll(reason = "pause") { for (const t of this.tasks.values()) { if (t.running) { t.stop = reason; t.ctl?.abort(); } else if (t.state === S.QUEUED && reason === "pause") t.set(S.PAUSED); } }
+  resumeAll() { for (const t of this.tasks.values()) if ([S.PAUSED, S.RECONNECTING].includes(t.state)) t.resume(); this.pump(); }
+  retryAllFailed() { for (const t of this.tasks.values()) if (t.state === S.FAILED) t.retry(); }
+  onOffline() { this.pauseAll("offline"); this.emit("net", false); }
+  onOnline() { for (const t of this.tasks.values()) if (t.state === S.RECONNECTING && !(t.rec.needFile && !t.file)) t.resume(); this.pump(); this.emit("net", true); }
+}
+
+/* ============================ APP-LEVEL MANAGERS ============================ */
+let App = null;
+const timeIso = s => { s = Math.round(s || 0); return `PT${Math.floor(s / 3600)}H${Math.floor(s % 3600 / 60)}M${s % 60}S`; };
+
+class NotificationManager extends Emitter {
+  async add(n) {
+    const rec = { id: uid("notif"), userId: n.userId ?? (App.auth.user?.id || ""), type: n.type || "info", title: clean(n.title, 100), text: clean(n.text, 300), href: n.href || "", createdAt: new Date().toISOString(), read: false };
+    await db.put("notifications", rec).catch(() => {}); this.emit("change");
+  }
+  async list() { const me = App.auth.user?.id || ""; return (await db.all("notifications")).filter(n => n.userId === me || n.userId === "").sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100); }
+  async unread() { return (await this.list()).filter(n => !n.read).length; }
+  async markAllRead() { for (const n of await this.list()) if (!n.read) { n.read = true; await db.put("notifications", n); } this.emit("change"); }
+}
+
+class AnalyticsManager {
+  constructor() { this.viewed = new Set(); this.prune = debounce(async () => { const k = (await db.keys("analytics")).sort(); if (k.length > 600) for (const id of k.slice(0, k.length - 500)) await db.del("analytics", id); }, 5000); }
+  async track(item, name, data = {}) {
+    const evt = { id: uid("evt"), itemId: item.id, name, data, ts: Date.now() }; Log.log("PLAYER", name, data);
+    try { window.ZELUNI_HOOKS?.onAnalytics?.(evt); } catch { /* hook errors must not break playback */ }
+    await db.put("analytics", evt).catch(() => {}); this.prune();
+  }
+  async bump(item, field) { if (!(App.mode === MODE.LOCAL || item.storage === "local")) return; const s = (await db.get("stats", item.id)) || { id: item.id, views: 0, completions: 0 }; s[field] = (s[field] || 0) + 1; await db.put("stats", s); App.manifest.stats.set(item.id, s); }
+  async view(item) { if (this.viewed.has(item.id)) return; this.viewed.add(item.id); await this.bump(item, "views"); }
+  async history(item, pct) {
+    if (!(pct > 0.02)) return;
+    await db.put("history", { id: uid("hist"), itemId: item.id, ownerId: item.ownerId, tags: item.tags, category: item.category, pct: Math.min(1, pct), ts: Date.now() }).catch(() => {});
+    const all = (await db.keys("history")).sort(); if (all.length > 300) for (const id of all.slice(0, all.length - 250)) await db.del("history", id);
+    Bus.emit("history");
+  }
+}
+
+class ModerationManager {
+  constructor() { this.blocked = new Set(); }
+  async init() { this.blocked = new Set((await db.get("kv", "blocked")) || []); }
+  isBlocked(id) { return this.blocked.has(id); }
+  async block(id) { this.blocked.add(id); await db.put("kv", [...this.blocked], "blocked"); Bus.emit("manifest"); }
+  async unblock(id) { this.blocked.delete(id); await db.put("kv", [...this.blocked], "blocked"); Bus.emit("manifest"); }
+  async report(target, category, details) {
+    const r = { id: uid("report"), reporterId: App.auth.user?.id || "", targetType: target.type, targetId: target.id, category: clean(category, 40), details: clean(details, 2000), createdAt: new Date().toISOString(), status: "OPEN", sent: false, error: "" };
+    try { const res = await App.storage.report(r); r.sent = !!res.ok; if (!res.ok) r.error = res.reason || ""; } catch (e) { r.error = e.message; }
+    await db.put("reports", r); return r;
+  }
+  async decide(item, status, note) {
+    if (App.mode !== MODE.LOCAL) throw new Error("Moderation decisions are made by the backend in this storage mode");
+    item.moderationStatus = status; item.moderation.notes.push({ at: new Date().toISOString(), by: "local-moderator", text: clean(note, 500) || status });
+    await db.put("items", item); Bus.emit("manifest");
+  }
+  async appeal(item, text) {
+    item.moderation.appeals.push({ id: uid("appeal"), at: new Date().toISOString(), text: clean(text, 1000), status: "OPEN" }); await db.put("items", item);
+    try { await App.storage.report({ id: uid("report"), reporterId: App.auth.user?.id || "", targetType: item.type, targetId: item.id, category: "appeal", details: clean(text, 1000), createdAt: new Date().toISOString() }); } catch (e) { Log.log("MOD", "appeal stored locally only:", e.message); }
+  }
+}
+
+class ManifestManager {
+  constructor() { this.items = new Map(); this.posts = new Map(); this.localUsers = new Map(); this.remoteUsers = new Map(); this.stats = new Map(); this.followKeys = new Set(); this.likeKeys = new Set(); this.status = { state: "idle", error: "", updatedAt: "" }; }
+  async load() {
+    const [items, posts, users, stats, follows, likes] = await Promise.all(["items", "posts", "users", "stats", "follows", "likes"].map(s => db.all(s)));
+    this.items = new Map(); this.posts = new Map(); this.remoteUsers = new Map(); this.localUsers = new Map(users.map(u => [u.id, u]));
+    this.stats = new Map(stats.map(s => [s.id, s])); this.followKeys = new Set(follows.map(f => f.key)); this.likeKeys = new Set(likes.map(l => l.key));
+    const url = CFG.publicManifestUrl || (App.mode === MODE.CENTRAL && CFG.centralUploadEndpoint ? CFG.centralUploadEndpoint + "/manifest" : "");
+    this.status = { state: url ? "loading" : "local", error: "", updatedAt: "" };
+    let remote = null;
+    if (url) {
+      try {
+        remote = App.mode === MODE.CENTRAL ? await App.storage.loadManifest() : await fetchJson(url, { headers: { Accept: "application/json" } });
+        if (!remote || remote.version !== 1 || !Array.isArray(remote.items)) throw new StorageError("SERVER", "Manifest has an unsupported format (expected {version:1, items:[]})");
+        await db.put("kv", remote, "manifestCache"); this.status = { state: "ok", error: "", updatedAt: remote.updatedAt || "" };
+      } catch (e) { Log.err("MANIFEST", e); remote = await db.get("kv", "manifestCache").catch(() => null); this.status = { state: remote ? "stale" : "error", error: e.message, updatedAt: remote?.updatedAt || "" }; }
+    }
+    if (remote) {
+      for (const r of remote.items || []) { const i = Model.item(r); if (i) { i.remote = true; this.items.set(i.id, i); } }
+      for (const r of remote.posts || []) { const p = Model.post(r); if (p) this.posts.set(p.id, p); }
+      for (const r of remote.users || []) { const u = Model.user(r); if (u) this.remoteUsers.set(u.id, u); }
+    }
+    for (const r of items) { const i = Model.item(r); if (i && !this.items.has(i.id)) this.items.set(i.id, i); }
+    for (const r of posts) { const p = Model.post(r); if (p && !this.posts.has(p.id)) this.posts.set(p.id, p); }
+    Log.log("MEDIA", `manifest: ${this.items.size} items, ${this.posts.size} posts`); Bus.emit("manifest");
+  }
+  userById(id) { return this.localUsers.get(id) || this.remoteUsers.get(id) || null; }
+  userByName(n) { n = String(n).toLowerCase(); for (const u of [...this.localUsers.values(), ...this.remoteUsers.values()]) if (u.username === n) return u; return null; }
+  users() { return [...this.localUsers.values(), ...[...this.remoteUsers.values()].filter(u => !this.localUsers.has(u.id))]; }
+  isOwn(x) { const me = App.auth.user?.id; return !!me && (x.ownerId === me || x.authorId === me); }
+  listed(i) { return i.visibility === "public" && i.moderationStatus === MOD.APPROVED && !App.moderation.isBlocked(i.ownerId); }
+  mine(i) { return this.isOwn(i) && i.moderationStatus !== MOD.REMOVED; }
+  directlyViewable(i) { return this.isOwn(i) || (i.moderationStatus === MOD.APPROVED && i.visibility !== "private" && !App.moderation.isBlocked(i.ownerId)); }
+  postListed(p) { return p.visibility === "public" && p.moderationStatus === MOD.APPROVED && !App.moderation.isBlocked(p.authorId); }
+  findDuplicate(checksum) { for (const i of this.items.values()) if (i.checksum && i.checksum === checksum && i.moderationStatus !== MOD.REMOVED) return i; return null; }
+  views(i) { return (i.stats.views || 0) + (this.stats.get(i.id)?.views || 0); }
+  likes(i) { let n = i.stats.likes || 0; for (const k of this.likeKeys) if (k.endsWith(":" + i.id)) n++; return n; }
+  followers(id) { const u = this.userById(id); if (u?.stats?.followers != null) return u.stats.followers; let n = 0; for (const k of this.followKeys) if (k.endsWith(">" + id)) n++; return n; }
+  following(id) { let n = 0; for (const k of this.followKeys) if (k.startsWith(id + ">")) n++; return n; }
+  isFollowing(t) { const me = App.auth.user?.id; return !!me && this.followKeys.has(`${me}>${t}`); }
+  isLiked(id) { const me = App.auth.user?.id; return !!me && this.likeKeys.has(`${me}:${id}`); }
+}
+
+class ProfileManager {
+  async follow(targetId) {
+    const me = App.auth.user; if (!me || me.id === targetId) return; const key = `${me.id}>${targetId}`;
+    await db.put("follows", { key, followerId: me.id, followeeId: targetId, at: Date.now() }); App.manifest.followKeys.add(key);
+    if (App.manifest.localUsers.has(targetId)) App.notify.add({ userId: targetId, type: "follow", title: "New follower", text: `@${me.username} started following you`, href: `/@${me.username}` });
+  }
+  async unfollow(targetId) { const me = App.auth.user; if (!me) return; const key = `${me.id}>${targetId}`; await db.del("follows", key); App.manifest.followKeys.delete(key); }
+  async toggleLike(itemId) {
+    const me = App.auth.user; if (!me) return; const key = `${me.id}:${itemId}`;
+    if (App.manifest.likeKeys.has(key)) { await db.del("likes", key); App.manifest.likeKeys.delete(key); } else { await db.put("likes", { key, userId: me.id, itemId, at: Date.now() }); App.manifest.likeKeys.add(key); }
+    Bus.emit("history");
+  }
+}
+
+class PostManager {
+  parseTags(s) { return [...new Set(String(s || "").split(/[,\n#]+/).map(t => clean(t, 32).toLowerCase()).filter(Boolean))].slice(0, 15); }
+  async publishTask(task, meta, { postId = "" } = {}) {
+    const rec = task.rec, me = App.auth.user; if (!me) throw new Error("Create a profile before publishing");
+    if (rec.publishedItemId && App.manifest.items.has(rec.publishedItemId)) return App.manifest.items.get(rec.publishedItemId);
+    if (task.publishing) throw new Error("Publish already in progress");
+    if (task.state !== S.READY) throw new Error("This upload is not ready yet");
+    if (!task.settled) throw new Error("Generated files are still uploading — try again in a moment");
+    task.publishing = true;
+    try {
+      const kids = {}; for (const c of rec.children || []) { const t = App.uploads.tasks.get(c.id); if (t?.state === S.READY && t.rec.driveFileId) kids[c.role] = t.rec; }
+      const p = rec.processing || {}, id = uid(rec.kind), now = new Date().toISOString();
+      const item = {
+        id, ownerId: me.id, type: rec.kind, title: clean(meta.title, 150) || rec.filename.replace(/\.[^.]+$/, ""), description: clean(meta.description, 5000), tags: this.parseTags(meta.tags), category: clean(meta.category, 40) || "General",
+        filename: rec.filename, mimeType: rec.mime, originalSize: rec.size, playbackSize: kids.playback?.size || p.playbackSize || 0, width: rec.meta?.width || p.width || 0, height: rec.meta?.height || p.height || 0, duration: rec.meta?.duration || p.duration || 0,
+        thumbnailFileId: kids.thumbnail?.driveFileId || kids.image_thumb?.driveFileId || p.thumbnailFileId || "", originalFileId: rec.driveFileId, playbackFileId: kids.playback?.driveFileId || p.playbackFileId || "", driveFileId: rec.driveFileId,
+        imageFileIds: { large: kids.image_large?.driveFileId || "", medium: kids.image_medium?.driveFileId || "", thumbnail: kids.image_thumb?.driveFileId || "" },
+        variants: Array.isArray(p.variants) ? p.variants : [], urls: {}, visibility: VIS.includes(meta.visibility) ? meta.visibility : "public", downloadEnabled: !!meta.downloadEnabled, ageRestricted: meta.ageRestricted !== false,
+        processingStatus: rec.compression?.status === "serverTranscodeRequired" ? "serverTranscodeRequired" : (p.state || "READY"), moderationStatus: MOD.PENDING, moderation: { notes: [], appeals: [] },
+        createdAt: new Date(rec.created).toISOString(), publishedAt: now, storage: { [MODE.LOCAL]: "local", [MODE.DRIVE]: "drive", [MODE.CENTRAL]: "central" }[App.mode], postId, checksum: rec.fingerprint?.value || "", stats: { views: 0, likes: 0 }
+      };
+      if (p.playbackUrl) item.urls.playback = p.playbackUrl; if (p.thumbnailUrl) item.urls.thumbnail = p.thumbnailUrl; if (rec.result?.mediaUrl) item.urls.original = rec.result.mediaUrl;
+      task.set(S.PUBLISHING, { error: "" });
+      const res = await App.storage.publishItem(item);
+      const srv = Model.item({ ...item, ...(res.item || {}), id, ownerId: me.id }) || Model.item(item);
+      if (App.mode === MODE.LOCAL && CFG.localAutoApprove) { srv.moderationStatus = MOD.APPROVED; srv.moderation.notes.push({ at: now, by: "local-development", text: "Auto-approved because this device is its own moderator" }); }
+      await db.put("items", srv); App.manifest.items.set(srv.id, srv);
+      rec.publishedItemId = id; task.set(S.PUBLISHED, { error: "" });
+      for (const c of rec.children || []) { await db.del("blobs", "derived:" + c.id).catch(() => {}); await db.del("uploads", c.id).catch(() => {}); }
+      await db.del("blobs", "handle:" + rec.id).catch(() => {}); await db.del("uploads", rec.id).catch(() => {});
+      Bus.emit("manifest"); return srv;
+    } catch (e) { task.set(S.READY, { error: "Publish failed: " + e.message }); throw e; }
+    finally { task.publishing = false; }
+  }
+  async publishPost({ body, tasks, visibility }) {
+    const me = App.auth.user; if (!me) throw new Error("Create a profile before publishing");
+    body = clean(body, 10000); if (!body && !tasks.length) throw new Error("Write something or attach media first");
+    const id = uid("post"), items = [];
+    for (const t of tasks) items.push(await this.publishTask(t, { title: t.rec.filename.replace(/\.[^.]+$/, ""), description: "", tags: "", category: "General", visibility, downloadEnabled: true }, { postId: id }));
+    const kinds = new Set(items.map(i => i.type)); const now = new Date().toISOString();
+    const post = { id, authorId: me.id, body, assets: items.map(i => i.id), type: !items.length ? "TEXT" : kinds.size > 1 ? "MIXED" : items[0].type === "image" ? "IMAGE" : "VIDEO", visibility: VIS.includes(visibility) ? visibility : "public", moderationStatus: MOD.PENDING, createdAt: now, updatedAt: now, storage: { [MODE.LOCAL]: "local", [MODE.DRIVE]: "drive", [MODE.CENTRAL]: "central" }[App.mode] };
+    const res = await App.storage.publishPost(post);
+    const fin = Model.post({ ...post, ...(res.post || {}), id, authorId: me.id });
+    if (App.mode === MODE.LOCAL && CFG.localAutoApprove) fin.moderationStatus = MOD.APPROVED;
+    await db.put("posts", fin); App.manifest.posts.set(fin.id, fin);
+    for (const it of items) if (App.mode === MODE.LOCAL && CFG.localAutoApprove && it.moderationStatus !== MOD.APPROVED) { it.moderationStatus = MOD.APPROVED; await db.put("items", it); }
+    Bus.emit("manifest"); return fin;
+  }
+}
+
+class FeedManager {
+  constructor() { this.seed = Math.random(); this.aff = null; Bus.on("history", () => { this.aff = null; }); }
+  async affinity() {
+    if (this.aff) return this.aff; const tags = new Map(), creators = new Map(), cats = new Map(), now = Date.now();
+    for (const h of await db.all("history")) { const w = (0.3 + h.pct) * Math.pow(0.5, (now - h.ts) / (7 * 864e5)); for (const t of h.tags || []) tags.set(t, (tags.get(t) || 0) + w); creators.set(h.ownerId, (creators.get(h.ownerId) || 0) + w); cats.set(h.category, (cats.get(h.category) || 0) + w); }
+    for (const k of App.manifest.likeKeys) { const i = App.manifest.items.get(k.split(":")[1]); if (i) { for (const t of i.tags) tags.set(t, (tags.get(t) || 0) + 1); creators.set(i.ownerId, (creators.get(i.ownerId) || 0) + 1); } }
+    const norm = m => { const mx = Math.max(1, ...m.values()); for (const [k, v] of m) m.set(k, v / mx); return m; };
+    return (this.aff = { tags: norm(tags), creators: norm(creators), cats: norm(cats) });
+  }
+  base() {
+    const m = App.manifest, out = [];
+    for (const i of m.items.values()) if (!i.postId && m.listed(i)) out.push({ kind: "item", obj: i, ts: Date.parse(i.publishedAt) || 0 });
+    for (const p of m.posts.values()) if (m.postListed(p)) out.push({ kind: "post", obj: p, ts: Date.parse(p.createdAt) || 0 });
+    return out;
+  }
+  newest() { return this.base().sort((a, b) => b.ts - a.ts); }
+  trending() {
+    const m = App.manifest, now = Date.now();
+    const sc = e => { if (e.kind !== "item") return 0; const i = e.obj, s = m.stats.get(i.id) || {}; const hrs = Math.max(0, (now - e.ts) / 36e5); return (m.views(i) + 3 * m.likes(i) + 2 * (s.completions || 0)) / Math.pow(hrs + 4, 1.2); };
+    return this.base().map(e => [e, sc(e)]).sort((a, b) => b[1] - a[1] || b[0].ts - a[0].ts).map(x => x[0]);
+  }
+  following() { const me = App.auth.user?.id; if (!me) return []; return this.newest().filter(e => App.manifest.isFollowing(e.kind === "item" ? e.obj.ownerId : e.obj.authorId)); }
+  async forYou() {
+    const aff = await this.affinity(), m = App.manifest, now = Date.now(), rnd = id => { let h = Math.floor(this.seed * 1e9); for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) % 1000000007; return (h % 1000) / 1000; };
+    const scored = this.base().map(e => {
+      const o = e.obj, owner = e.kind === "item" ? o.ownerId : o.authorId, tags = e.kind === "item" ? o.tags : [];
+      const rel = tags.length ? Math.min(1, tags.reduce((a, t) => a + (aff.tags.get(t) || 0), 0) / Math.sqrt(tags.length)) : 0;
+      const creator = Math.min(1, (aff.creators.get(owner) || 0) + (m.isFollowing(owner) ? 0.5 : 0));
+      const watch = Math.min(1, 0.6 * rel + 0.6 * creator + 0.2 * (e.kind === "item" ? aff.cats.get(o.category) || 0 : 0));
+      const st = e.kind === "item" ? m.stats.get(o.id) : null; const completion = st?.views ? Math.min(1, (st.completions || 0) / st.views) : 0.5;
+      const fresh = Math.exp(-((now - e.ts) / 36e5) / 72);
+      const quality = e.kind === "item" ? (o.height >= 1080 ? 1 : o.height >= 720 ? 0.8 : 0.6) * (o.thumbnailFileId || o.imageFileIds?.thumbnail || o.urls?.thumbnail ? 1 : 0.85) : 0.6;
+      return { e, owner, s: 0.3 * rel + 0.18 * watch + 0.14 * completion + 0.18 * fresh + 0.1 * creator + 0.05 * quality + 0.05 * rnd(o.id) };
+    }).sort((a, b) => b.s - a.s).slice(0, 400);
+    const out = [], recent = [];
+    while (scored.length) { // greedy re-rank with duplicate-creator penalty
+      let bi = 0, bs = -Infinity; for (let i = 0; i < Math.min(scored.length, 60); i++) { const dup = recent.filter(x => x === scored[i].owner).length; const s = scored[i].s - 0.12 * dup; if (s > bs) { bs = s; bi = i; } }
+      const [p] = scored.splice(bi, 1); out.push(p.e); recent.push(p.owner); if (recent.length > 6) recent.shift();
+    }
+    return out;
+  }
+  related(item, n = 12) {
+    const m = App.manifest, tags = new Set(item.tags);
+    return [...m.items.values()].filter(i => i.id !== item.id && i.type === "video" && !i.postId && m.listed(i)).map(i => ({ i, s: i.tags.filter(t => tags.has(t)).length * 2 + (i.category === item.category ? 1 : 0) + (i.ownerId === item.ownerId ? 1.5 : 0) })).sort((a, b) => b.s - a.s || Date.parse(b.i.publishedAt) - Date.parse(a.i.publishedAt)).slice(0, n).map(x => x.i);
+  }
+}
+
+class ClientSearchAdapter {
+  search(q) {
+    const toks = clean(q, 120).toLowerCase().split(/\s+/).filter(Boolean); if (!toks.length) return { items: [], creators: [] };
+    const m = App.manifest, items = [], creators = [];
+    for (const i of m.items.values()) {
+      if (!m.listed(i) && !m.mine(i)) continue; const o = m.userById(i.ownerId); let total = 0, ok = true; const title = i.title.toLowerCase();
+      for (const t of toks) {
+        let s = 0; if (title.startsWith(t)) s += 6; else if (title.includes(t)) s += 4;
+        if (i.tags.includes(t)) s += 5; else if (i.tags.some(x => x.includes(t))) s += 3;
+        if (o && (o.username.includes(t) || o.displayName.toLowerCase().includes(t))) s += 4;
+        if (i.category.toLowerCase().includes(t)) s += 2; if (i.description.toLowerCase().includes(t)) s += 1;
+        if (!s) { ok = false; break; } total += s;
+      }
+      if (ok) items.push({ i, s: total });
+    }
+    for (const u of m.users()) { if (toks.every(t => u.username.includes(t) || u.displayName.toLowerCase().includes(t))) creators.push(u); }
+    return { items: items.sort((a, b) => b.s - a.s).map(x => x.i), creators };
+  }
+}
+class RemoteSearchAdapter { // future: OpenSearch / Elasticsearch — implement search(q) against your cluster and register in SearchManager
+  get available() { return false; }
+  async search() { throw new StorageError("NOT_CONFIGURED", "Remote search adapter is not configured"); }
+}
+class SearchManager { constructor() { this.adapter = new ClientSearchAdapter(); this.remote = new RemoteSearchAdapter(); } search(q) { Log.log("SEARCH", q); return this.adapter.search(q); } }
+
+class SEOManager {
+  meta(sel, attr, key, val) { let el = $(`${sel}[${attr}="${key}"]`); if (!val) { el?.remove(); return; } if (!el) { el = document.createElement(sel); el.setAttribute(attr, key); document.head.appendChild(el); } el.setAttribute("content", val); }
+  site() { return (CFG.publicSiteUrl || (location.origin !== "null" ? location.origin : "")).replace(/\/+$/, ""); }
+  apply({ title, description, path = "/", image = "", type = "website", jsonld = null }) {
+    const full = (title ? title + " · " : "") + "Zeluni", url = this.site() + (CFG.basePath || "") + path, desc = clean(description || "Zeluni is a user-generated media platform for video, photos and posts.", 200);
+    document.title = full; this.meta("meta", "name", "description", desc);
+    let c = $('link[rel="canonical"]'); if (!c) { c = document.createElement("link"); c.rel = "canonical"; document.head.appendChild(c); } c.href = url;
+    const img = /^https?:/.test(image) ? image : "";
+    for (const [k, v] of [["og:title", full], ["og:description", desc], ["og:type", type], ["og:url", url], ["og:site_name", "Zeluni"], ["og:image", img]]) this.meta("meta", "property", k, v);
+    for (const [k, v] of [["twitter:card", img ? "summary_large_image" : "summary"], ["twitter:title", full], ["twitter:description", desc], ["twitter:image", img]]) this.meta("meta", "name", k, v);
+    $("#zeluni-jsonld")?.remove(); if (jsonld) { const s = document.createElement("script"); s.id = "zeluni-jsonld"; s.type = "application/ld+json"; s.textContent = JSON.stringify(jsonld).replace(/</g, "\\u003c"); document.head.appendChild(s); }
+    if (CFG.sitemapEndpoint && !$('link[rel="sitemap"]')) { const l = document.createElement("link"); l.rel = "sitemap"; l.type = "application/xml"; l.href = CFG.sitemapEndpoint; document.head.appendChild(l); }
+    Log.log("SEO", full, url);
+  }
+  async videoLd(item) {
+    const o = App.manifest.userById(item.ownerId), thumb = await Media.url(item, "thumbnail"), content = await Media.url(item, "playback"), site = this.site();
+    const ld = { "@context": "https://schema.org", "@type": "VideoObject", name: item.title, description: item.description || item.title, uploadDate: item.publishedAt };
+    if (/^https?:/.test(thumb)) ld.thumbnailUrl = [thumb]; if (item.duration) ld.duration = timeIso(item.duration); if (/^https?:/.test(content)) ld.contentUrl = content;
+    if (site) ld.url = `${site}${CFG.basePath || ""}/video/${item.id}/${slugify(item.title)}`; if (o) ld.author = { "@type": "Person", name: o.displayName };
+    return { ld, image: /^https?:/.test(thumb) ? thumb : "" };
+  }
+  sitemapXml() {
+    const m = App.manifest, base = this.site() + (CFG.basePath || ""), e = [`${base}/`];
+    for (const i of m.items.values()) if (m.listed(i)) e.push(i.type === "video" ? `${base}/video/${i.id}/${slugify(i.title)}` : `${base}/post/${i.id}`);
+    for (const p of m.posts.values()) if (m.postListed(p)) e.push(`${base}/post/${p.id}`);
+    for (const u of m.users()) e.push(`${base}/@${u.username}`);
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${e.map(u => `  <url><loc>${esc(u)}</loc></url>`).join("\n")}\n</urlset>\n`;
+  }
+}
+
+class DownloadManager {
+  options(item) {
+    const me = App.manifest.isOwn(item); if (!item.downloadEnabled && !me) return [];
+    const o = [];
+    for (const v of item.variants || []) if (v.label) o.push({ id: v.label, label: v.label, size: v.size, fileId: v.fileId, url: v.url, quality: v.label });
+    if (item.playbackFileId && item.playbackFileId !== item.originalFileId) o.push({ id: "playback", label: "Playback version", size: item.playbackSize, fileId: item.playbackFileId, quality: "playback" });
+    if (item.originalFileId || item.driveFileId || item.urls?.original) o.push({ id: "original", label: "Original", size: item.originalSize, fileId: item.originalFileId || item.driveFileId, url: item.urls?.original, quality: "original" });
+    return o;
+  }
+  fileName(item, opt) { const ext = opt.id === "playback" ? "mp4" : (EXT[item.mimeType] || "bin"); return `${slugify(item.title)}-${slugify(opt.label)}.${ext}`; }
+  endpoint(item, opt) { return `${CFG.centralUploadEndpoint}/download/${encodeURIComponent(item.id)}/${encodeURIComponent(opt.quality)}`; }
+  async verify(item, opt) {
+    if (item.storage === "local") { const b = await db.get("blobs", "asset:" + opt.fileId); if (!b) throw new StorageError("NOT_FOUND", "The stored file is missing from this browser"); return { ok: true, size: b.size }; }
+    if (item.storage === "central" && CFG.centralUploadEndpoint) {
+      let r; try { r = await fetch(this.endpoint(item, opt), { method: "HEAD", headers: App.storage instanceof CentralUploadStorage ? App.storage.hdrs() : {} }); } catch { throw new StorageError("NETWORK", "Download endpoint unreachable"); }
+      if (!r.ok) throw classifyHttp({ status: r.status, text: "", getHeader: n => r.headers.get(n) }); return { ok: true, size: +r.headers.get("Content-Length") || 0 };
+    }
+    if (item.storage === "drive" && opt.fileId) {
+      if (!App.auth.google.connected) return { ok: true, unverified: true };
+      const f = await App.storage.api(`files/${encodeURIComponent(opt.fileId)}`, { params: { fields: "id,size,trashed", supportsAllDrives: "true" } });
+      if (f.trashed) throw new StorageError("NOT_FOUND", "The file is in the Drive trash"); return { ok: true, size: +f.size || 0 };
+    }
+    if (opt.url) return { ok: true, unverified: true };
+    throw new StorageError("NOT_FOUND", "No downloadable file for this quality");
+  }
+  anchor(url, name) { const a = document.createElement("a"); a.href = url; a.download = name; a.rel = "noopener"; document.body.appendChild(a); a.click(); a.remove(); }
+  async stream(resp, name, prog) {
+    const total = +resp.headers.get("Content-Length") || 0;
+    if (window.showSaveFilePicker) {
+      const h = await showSaveFilePicker({ suggestedName: name }); const w = await h.createWritable(), rd = resp.body.getReader(); let got = 0;
+      try { for (;;) { const { done, value } = await rd.read(); if (done) break; await w.write(value); got += value.length; prog(total ? got / total : 0); } await w.close(); } catch (e) { await w.abort().catch(() => {}); throw e; }
+      return true;
+    }
+    if (total && total > 400 * 1024 * 1024) return false;
+    const rd = resp.body.getReader(), parts = []; let got = 0; for (;;) { const { done, value } = await rd.read(); if (done) break; parts.push(value); got += value.length; prog(total ? got / total : 0); }
+    const u = URL.createObjectURL(new Blob(parts)); this.anchor(u, name); setTimeout(() => URL.revokeObjectURL(u), 60000); return true;
+  }
+  async download(item, opt, prog) {
+    const v = await this.verify(item, opt), name = this.fileName(item, opt); Log.log("MEDIA", "download", item.id, opt.id, v);
+    if (item.storage === "local") { const u = URL.createObjectURL(await db.get("blobs", "asset:" + opt.fileId)); this.anchor(u, name); setTimeout(() => URL.revokeObjectURL(u), 60000); return; }
+    if (item.storage === "central" && CFG.centralUploadEndpoint) {
+      const url = this.endpoint(item, opt); const r = await fetch(url, { headers: App.storage.hdrs() }).catch(() => { throw new StorageError("NETWORK", "Download failed to start"); });
+      if (!r.ok) throw classifyHttp({ status: r.status, text: "", getHeader: n => r.headers.get(n) });
+      if (!(await this.stream(r, name, prog))) this.anchor(url, name); return;
+    }
+    if (item.storage === "drive") {
+      if (App.auth.google.connected) {
+        const r = await fetch(`https://www.googleapis.com/drive/v3/files/${encodeURIComponent(opt.fileId)}?alt=media&supportsAllDrives=true`, { headers: { Authorization: "Bearer " + App.auth.google.token } }).catch(() => { throw new StorageError("NETWORK", "Download failed to start"); });
+        if (r.ok && await this.stream(r, name, prog)) return;
+        if (!r.ok) throw classifyHttp({ status: r.status, text: "", getHeader: n => r.headers.get(n) });
+      }
+      this.anchor(await new DriveMediaDelivery().resolve(opt.fileId, "original"), name); return;
+    }
+    const url = opt.url || (opt.fileId ? await Media.byFile(item.storage, opt.fileId, "original") : ""); if (!url) throw new StorageError("NOT_FOUND", "No download URL"); this.anchor(url, name);
+  }
+}
+
+class Router {
+  constructor() { this.mode = "history"; this.onRoute = null; }
+  base() { return (CFG.basePath || "").replace(/\/+$/, ""); }
+  pick() { const ok = (() => { try { return !["file:", "blob:", "data:"].includes(location.protocol) && location.origin !== "null" && !!history.pushState; } catch { return false; } })(); this.mode = CFG.routeMode === "hash" ? "hash" : ok ? "history" : "hash"; }
+  href(p) { return this.mode === "hash" ? "#" + p : this.base() + p; }
+  current() { if (this.mode === "hash") return location.hash.slice(1) || "/"; let p = location.pathname; const b = this.base(); if (b && p.startsWith(b)) p = p.slice(b.length); return (p || "/") + location.search; }
+  parse(full) {
+    const [p, qs] = full.split("?"); const query = Object.fromEntries(new URLSearchParams(qs || ""));
+    const seg = p.split("/").filter(Boolean).map(s => { try { return decodeURIComponent(s); } catch { return s; } });
+    const r = (name, params = {}) => ({ name, params, query, path: p || "/" });
+    if (!seg.length) return r("home"); const s0 = seg[0];
+    if (s0.startsWith("@")) return r("profile", { username: s0.slice(1).toLowerCase(), tab: seg[1] || "videos" });
+    switch (s0) {
+      case "explore": return r("explore"); case "following": return r("following"); case "search": return r("search"); case "create": return r("create"); case "upload": return r("upload");
+      case "notifications": return r("notifications"); case "settings": return r("settings", { tab: seg[1] || "account" });
+      case "video": return r("video", { id: seg[1] || "", slug: seg[2] || "" }); case "post": return r("post", { id: seg[1] || "" });
+    }
+    return r("notfound");
+  }
+  go(path, { replace = false } = {}) {
+    if (this.mode === "hash") { if (replace) location.replace("#" + path); else location.hash = path; return; }
+    try { history[replace ? "replaceState" : "pushState"](null, "", this.base() + path); } catch (e) { Log.err("ROUTER", e); this.mode = "hash"; location.hash = path; return; }
+    this.handle();
+  }
+  handle() { const rt = this.parse(this.current()); this.onRoute?.(rt); }
+  start() { this.pick(); addEventListener(this.mode === "hash" ? "hashchange" : "popstate", () => this.handle()); this.handle(); }
+}
+
+/* ============================ PLAYER ============================ */
+const isHls = u => /\.m3u8(\?|#|$)/i.test(u);
+class ZPlayer {
+  constructor(host, item) { this.host = host; this.item = item; this.ac = new AbortController(); this.fired = new Set(); this.hls = null; this.sources = []; this.idx = 0; this.maxPct = 0; this.played = 0; this.lastT = null; this.bufAt = 0; this.idleT = null; this.pop = null; }
+  on(el, ev, fn) { el.addEventListener(ev, fn, { signal: this.ac.signal }); }
+  track(n, d) { return App.analytics.track(this.item, n, d); }
+  async init() {
+    const it = this.item;
+    this.host.innerHTML = `<div class="zp" tabindex="0" role="group" aria-label="Video player"><video playsinline preload="metadata" aria-label="${esc(it.title)}"></video><img class="poster" alt="" hidden>
+<div class="center"><div class="spin"></div></div><div class="msg"><p></p><button class="btn pri" data-pz="retry" type="button">Retry</button></div>
+<div class="ctl"><input class="seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek"><div class="cr">
+<button class="iconbtn" data-pz="play" type="button" aria-label="Play">${ic("play", "fill")}</button><button class="iconbtn" data-pz="mute" type="button" aria-label="Mute">${ic("vol")}</button>
+<input class="vol" type="range" min="0" max="1" step="0.05" value="1" aria-label="Volume"><span class="tm">0:00 / 0:00</span><span class="grow"></span>
+<button class="iconbtn" data-pz="cc" type="button" aria-label="Captions" hidden>${ic("cc")}</button><button class="iconbtn" data-pz="speed" type="button" aria-label="Playback speed"><span class="xs">1×</span></button>
+<button class="iconbtn" data-pz="quality" type="button" aria-label="Quality">${ic("gear")}</button><button class="iconbtn" data-pz="pip" type="button" aria-label="Picture in picture">${ic("pip")}</button>
+<button class="iconbtn" data-pz="download" type="button" aria-label="Download">${ic("download")}</button><button class="iconbtn" data-pz="full" type="button" aria-label="Fullscreen">${ic("full")}</button></div></div></div>`;
+    const z = this.zp = $(".zp", this.host), v = this.v = $("video", z); this.seek = $(".seek", z); this.vol = $(".vol", z);
+    for (const c of it.captions || []) { const t = document.createElement("track"); t.kind = "subtitles"; t.src = c.url; t.srclang = c.lang; t.label = c.label || c.lang; v.appendChild(t); }
+    if (it.captions?.length) $('[data-pz="cc"]', z).hidden = false;
+    $('[data-pz="pip"]', z).hidden = !document.pictureInPictureEnabled;
+    this.bind();
+    Media.url(it, "thumbnail").then(u => { if (u && !this.ac.signal.aborted) { const p = $(".poster", z); p.src = u; p.hidden = false; } }).catch(() => {});
+    this.sources = await this.buildSources();
+    if (this.ac.signal.aborted) return;
+    if (!this.sources.length) return this.fail("No playable file is available for this video");
+    this.load(0);
+  }
+  async buildSources() {
+    const it = this.item, list = [], seen = new Set(), add = (id, label, url) => { if (url && !seen.has(url)) { seen.add(url); list.push({ id, label, url }); } };
+    const pb = await Media.url(it, "playback"); add("playback", isHls(pb) ? "Auto (HLS)" : it.playbackFileId && it.playbackFileId !== it.originalFileId ? "Auto (optimized)" : "Original", pb);
+    for (const v of it.variants) add("v:" + v.label, v.label, v.url || (v.fileId ? await Media.byFile(it.storage, v.fileId, "playback") : ""));
+    const orig = await Media.url(it, "original"); if (orig && document.createElement("video").canPlayType(it.mimeType)) add("original", "Original quality", orig);
+    return list;
+  }
+  async load(i, { time = 0, play = false } = {}) {
+    this.idx = i; const s = this.sources[i], v = this.v; this.destroyHls(); this.zp.classList.remove("fail"); v.removeAttribute("src");
+    if (isHls(s.url) && !v.canPlayType("application/vnd.apple.mpegurl")) {
+      try { await loadScript(CFG.hlsScriptUrl); } catch { return this.fail("Could not load the HLS player library"); }
+      if (!window.Hls?.isSupported()) return this.fail("HLS playback is not supported in this browser");
+      const h = this.hls = new Hls(); h.on(Hls.Events.ERROR, (e, d) => { if (!d.fatal) return; if (d.type === Hls.ErrorTypes.NETWORK_ERROR) h.startLoad(); else if (d.type === Hls.ErrorTypes.MEDIA_ERROR) h.recoverMediaError(); else this.onError("HLS playback failed"); });
+      h.attachMedia(v); h.loadSource(s.url);
+    } else v.src = s.url;
+    Log.log("PLAYER", "load", s.id);
+    if (time || play) v.addEventListener("loadedmetadata", () => { if (time) v.currentTime = time; if (play) v.play().catch(() => {}); }, { once: true });
+  }
+  bind() {
+    const z = this.zp, v = this.v, q = s => $(s, z);
+    const setIcon = () => { q('[data-pz="play"]').innerHTML = ic(v.paused ? "play" : "pause", "fill"); q('[data-pz="play"]').setAttribute("aria-label", v.paused ? "Play" : "Pause"); q('[data-pz="mute"]').innerHTML = ic(v.muted || !v.volume ? "mute" : "vol"); };
+    const poke = () => { z.classList.remove("idle"); clearTimeout(this.idleT); if (!v.paused) this.idleT = setTimeout(() => z.classList.add("idle"), 2500); };
+    this.on(z, "pointermove", poke); this.on(z, "keydown", poke); this.on(z, "pointerdown", poke);
+    this.on(v, "click", () => this.toggle());
+    this.on(v, "play", () => { $(".poster", z).hidden = true; setIcon(); poke(); this.track("play", { t: Math.round(v.currentTime) }); });
+    this.on(v, "pause", () => { setIcon(); poke(); if (!v.ended && !v.seeking) this.track("pause", { t: Math.round(v.currentTime) }); });
+    this.on(v, "waiting", () => { z.classList.add("buf"); this.bufAt = performance.now(); });
+    const unbuf = () => { if (this.bufAt && performance.now() - this.bufAt > 800) this.track("buffering", { ms: Math.round(performance.now() - this.bufAt) }); this.bufAt = 0; z.classList.remove("buf"); };
+    this.on(v, "playing", unbuf); this.on(v, "canplay", unbuf);
+    this.on(v, "seeked", debounce(() => this.track("seek", { t: Math.round(v.currentTime) }), 1500));
+    this.on(v, "loadedmetadata", () => this.time()); this.on(v, "durationchange", () => this.time());
+    this.on(v, "timeupdate", () => this.tick());
+    this.on(v, "ended", () => { setIcon(); if (!this.fired.has("complete")) { this.fired.add("complete"); this.track("complete"); App.analytics.bump(this.item, "completions"); } this.maxPct = 1; });
+    this.on(v, "error", () => this.onError());
+    this.on(v, "volumechange", setIcon);
+    this.on(this.seek, "input", () => { if (v.duration) v.currentTime = this.seek.value / 1000 * v.duration; });
+    this.on(this.vol, "input", () => { v.volume = +this.vol.value; v.muted = v.volume === 0; });
+    this.on(z, "click", e => {
+      const b = e.target.closest("[data-pz]"); if (!b) return; const a = b.dataset.pz; this.closePop();
+      if (a === "play") this.toggle(); else if (a === "mute") { v.muted = !v.muted; }
+      else if (a === "full") { if (document.fullscreenElement) document.exitFullscreen(); else (z.requestFullscreen || z.webkitRequestFullscreen)?.call(z); }
+      else if (a === "pip") { if (document.pictureInPictureElement) document.exitPictureInPicture(); else v.requestPictureInPicture?.().catch(() => UI.toast("Picture-in-picture is unavailable for this video", "err")); }
+      else if (a === "speed") this.popup(b, [0.5, 0.75, 1, 1.25, 1.5, 2].map(r => ({ label: r + "×", on: v.playbackRate === r, fn: () => { v.playbackRate = r; $(".xs", b).textContent = r + "×"; } })));
+      else if (a === "quality") this.popup(b, this.qualityItems());
+      else if (a === "cc") { const t = v.textTracks[0]; if (t) { t.mode = t.mode === "showing" ? "hidden" : "showing"; b.style.color = t.mode === "showing" ? "var(--acc)" : ""; } }
+      else if (a === "download") UI.downloadMenu(this.item, b);
+      else if (a === "retry") this.retry();
+    });
+    this.on(z, "keydown", e => {
+      if (e.target.matches("input")) return;
+      const k = e.key; if (k === " " || k === "k") { e.preventDefault(); this.toggle(); } else if (k === "ArrowRight") v.currentTime += 5; else if (k === "ArrowLeft") v.currentTime -= 5;
+      else if (k === "m") v.muted = !v.muted; else if (k === "f") $('[data-pz="full"]', z).click(); else if (k === "Escape") this.closePop();
+    });
+  }
+  qualityItems() {
+    const items = this.sources.map((s, i) => ({ label: s.label, on: i === this.idx && !this.hls, fn: () => { if (i === this.idx) return; const p = !this.v.paused, t = this.v.currentTime; this.track("quality-change", { to: s.id }); this.load(i, { time: t, play: p }); } }));
+    if (this.hls?.levels?.length) { items.push({ label: "Auto (adaptive)", on: this.hls.currentLevel === -1, fn: () => { this.hls.currentLevel = -1; this.track("quality-change", { to: "auto" }); } }); this.hls.levels.forEach((l, i) => items.push({ label: (l.height || "?") + "p", on: this.hls.currentLevel === i, fn: () => { this.hls.currentLevel = i; this.track("quality-change", { to: l.height + "p" }); } })); }
+    return items;
+  }
+  popup(anchor, items) {
+    const wasOpen = this.pop && this.pop.dataset.for === anchor.dataset.pz; this.closePop(); if (wasOpen) return;
+    const p = document.createElement("div"); p.className = "pop"; p.dataset.for = anchor.dataset.pz; p.setAttribute("role", "menu");
+    items.forEach(it => { const b = document.createElement("button"); b.type = "button"; b.setAttribute("role", "menuitemradio"); b.setAttribute("aria-checked", it.on ? "true" : "false"); b.textContent = it.label; b.onclick = e => { e.stopPropagation(); it.fn(); this.closePop(); }; p.appendChild(b); });
+    this.zp.appendChild(p); this.pop = p; p.querySelector("button")?.focus();
+  }
+  closePop() { this.pop?.remove(); this.pop = null; }
+  toggle() { const v = this.v; if (v.paused) v.play().catch(e => { if (e.name !== "AbortError") this.onError("Playback was blocked or failed: " + e.message); }); else v.pause(); }
+  time() { const v = this.v; $(".tm", this.zp).textContent = `${fmtDur(v.currentTime)} / ${fmtDur(v.duration)}`; }
+  tick() {
+    const v = this.v, d = v.duration; this.time(); if (!d || !Number.isFinite(d)) return;
+    this.seek.value = Math.round(v.currentTime / d * 1000); const pct = v.currentTime / d; this.maxPct = Math.max(this.maxPct, pct);
+    for (const m of [25, 50, 75, 90]) if (pct * 100 >= m && !this.fired.has(m)) { this.fired.add(m); this.track("progress-" + m, { pct: m }); }
+    if (!v.paused && this.lastT != null) { const dt = v.currentTime - this.lastT; if (dt > 0 && dt < 1.5) this.played += dt; }
+    this.lastT = v.currentTime; if (this.played >= 3 && !this.viewCounted) { this.viewCounted = true; App.analytics.view(this.item); }
+  }
+  onError(msg) {
+    const code = this.v.error?.code; this.track("error", { code, src: this.sources[this.idx]?.id });
+    if (this.idx + 1 < this.sources.length) { UI.toast("Playback error — trying another source", "err"); return this.load(this.idx + 1, { time: this.v.currentTime || 0, play: !this.v.paused }); }
+    this.fail(msg || "This video could not be played. It may be unavailable, blocked, or in a format this browser cannot decode.");
+  }
+  fail(msg) { $(".msg p", this.zp).textContent = msg; this.zp.classList.add("fail"); this.zp.classList.remove("buf"); }
+  async retry() { this.zp.classList.remove("fail"); this.sources = await this.buildSources(); if (!this.sources.length) return this.fail("No playable file is available for this video"); this.load(0); }
+  destroyHls() { try { this.hls?.destroy(); } catch { /* ignore */ } this.hls = null; }
+  destroy() {
+    if (this.maxPct > 0) App.analytics.history(this.item, this.maxPct);
+    this.ac.abort(); clearTimeout(this.idleT); this.destroyHls(); try { this.v.pause(); this.v.removeAttribute("src"); this.v.load(); } catch { /* ignore */ }
+  }
+}
+class PlayerManager { static mount(host, item) { const p = new ZPlayer(host, item); p.init().catch(e => { Log.err("PLAYER", e); p.fail("Player failed to start: " + e.message); }); return p; } }
+
+/* ============================ DIAGNOSTICS ============================ */
+class DiagnosticsManager {
+  constructor() {
+    const NC = d => ({ status: "NOT CONFIGURED", detail: d }), P = d => ({ status: "PASS", detail: d });
+    const drive = () => new GoogleDriveStorage();
+    const fakeTask = (size, name) => ({ rec: { id: uid("asset"), role: "original", kind: "diag", filename: name, size, mime: "text/plain", fingerprint: { value: "diagnostic" }, groupId: "" }, file: new Blob([new Uint8Array(size).fill(65)], { type: "text/plain" }) });
+    const needStorage = () => { const s = App.mode; if (s === MODE.LOCAL) return NC("Local development mode has no remote storage — configure Google Drive or a central endpoint"); const st = App.storage.status(); if (!st.ready && s !== MODE.DRIVE) return NC(st.message); if (s === MODE.DRIVE && !CFG.googleClientId) return NC("Google Drive is not configured"); return null; };
+    const dummyAbort = new AbortController().signal;
+    const upload = async (size, split) => {
+      const st = App.storage, t = fakeTask(size, "zeluni-diagnostic.txt"), cs = split || size; let r = await st.begin(t); t.rec.sessionRef = r.sessionRef;
+      let off = 0, res;
+      if (split) { res = await st.sendChunk(t, 0, split, t.file.slice(0, split), dummyAbort, () => {}); off = res.offset; const q = await st.queryOffset(t); if (q.offset !== split) throw new Error(`Resume check failed: server reports offset ${q.offset}, expected ${split}`); }
+      res = await st.sendChunk(t, off || 0, size, t.file.slice(off || 0, size), dummyAbort, () => {}); if (!res.done) throw new Error("Final chunk was not confirmed as complete");
+      t.rec.driveFileId = res.result?.driveFileId; const full = await st.complete(t, res.result || {}); t.rec.driveFileId = full.driveFileId || t.rec.driveFileId; t.rec.result = full; await st.verify(t);
+      let cleaned = "test asset left on the server (the contract has no delete call)";
+      if (st.mode === MODE.DRIVE) { await st.api(`files/${encodeURIComponent(t.rec.driveFileId)}`, { method: "DELETE", params: { supportsAllDrives: "true" } }); cleaned = "test file deleted"; }
+      return { cs, cleaned, id: t.rec.driveFileId };
+    };
+    const firstItem = pred => [...App.manifest.items.values()].find(i => App.manifest.directlyViewable(i) && pred(i));
+    this.defs = [
+      { id: "idb", name: "IndexedDB", run: async () => { if (!db.available) return { status: "FAIL", detail: "IndexedDB unavailable (" + db.error + "); running memory-only" }; const k = "diag-" + Date.now(); await db.put("kv", { t: 1 }, k); const v = await db.get("kv", k); await db.del("kv", k); return v?.t === 1 ? P("Read/write/delete OK") : { status: "FAIL", detail: "Read-back mismatch" }; } },
+      { id: "oauth", name: "OAuth (Google)", run: async () => { if (!CFG.googleClientId) return NC("Google OAuth client ID is not configured"); const g = App.auth.google; await g.loadGis(); if (!g.connected) await g.connect(); return P(`Authorized; token valid ~${Math.max(0, Math.round((g.expiresAt - Date.now()) / 60000))} min`); } },
+      { id: "drive", name: "Drive API", run: async () => { if (!CFG.googleClientId) return NC("Google OAuth client ID is not configured"); const a = await drive().api("about", { params: { fields: "user(displayName),storageQuota(limit,usage)" } }); const q = a.storageQuota || {}; return P(`Drive API reachable${q.usage ? "; used " + fmtBytes(+q.usage) + (q.limit ? " of " + fmtBytes(+q.limit) : "") : ""}`); } },
+      { id: "folder", name: "Drive folder permission", run: async () => { if (!CFG.googleClientId) return NC("Google OAuth client ID is not configured"); if (!CFG.googleDriveFolderId) return NC("Drive folder ID is not configured"); try { const f = await drive().api(`files/${encodeURIComponent(CFG.googleDriveFolderId)}`, { params: { fields: "id,name,mimeType,capabilities(canAddChildren)", supportsAllDrives: "true" } }); if (f.mimeType !== "application/vnd.google-apps.folder") return { status: "FAIL", detail: "ID is not a folder" }; return f.capabilities?.canAddChildren ? P(`Can write into "${f.name}"`) : { status: "FAIL", detail: `Folder "${f.name}" is read-only for this account` }; } catch (e) { return { status: "FAIL", detail: e.message + (e.code === "NOT_FOUND" ? " — with the narrow drive.file scope the app cannot see folders it did not create; use the drive scope or a backend" : "") }; } } },
+      { id: "upload", name: "Small upload", run: async () => { const n = needStorage(); if (n) return n; const r = await upload(300 * 1024); return P(`Uploaded ${fmtBytes(300 * 1024)}, verified; ${r.cleaned}`); } },
+      { id: "resume", name: "Resumable upload + resume from offset", run: async () => { const n = needStorage(); if (n) return n; const r = await upload(600 * 1024, 262144); return P(`Sent first 256 KiB, server confirmed offset 262144, resumed and completed; ${r.cleaned}`); } },
+      { id: "expiry", name: "Upload retry / session-expiry handling", run: async () => {
+        const n = needStorage(); if (n) return n; const st = App.storage, t = fakeTask(1024, "x.txt");
+        if (st.mode === MODE.DRIVE) { const s = await st.begin(t); t.rec.sessionRef = s.sessionRef.replace(/(upload_id=)([^&]+)/, "$1x$2"); } else t.rec.sessionRef = "zeluni-diagnostic-invalid-session";
+        try { await st.queryOffset(t); return { status: "FAIL", detail: "Server accepted an invalid session" }; }
+        catch (e) { return e instanceof StorageError && !e.retryable && ["SESSION_EXPIRED", "BAD_REQUEST", "NOT_FOUND"].includes(e.code) ? P(`Invalid session rejected and classified ${e.code} (not retried)`) : { status: "FAIL", detail: `Unexpected result: ${e.code || ""} ${e.message}` }; }
+      } },
+      { id: "manifest", name: "Manifest loading", run: async () => { const url = CFG.publicManifestUrl || (CFG.centralUploadEndpoint ? CFG.centralUploadEndpoint + "/manifest" : ""); if (!url) return NC("No public manifest URL or central endpoint configured"); const j = await fetchJson(url, { headers: { Accept: "application/json" } }); if (j.version !== 1 || !Array.isArray(j.items)) return { status: "FAIL", detail: "Response is not a version-1 manifest" }; return P(`${j.items.length} items, updated ${j.updatedAt || "unknown"}`); } },
+      { id: "media", name: "Media access", run: async () => { const i = firstItem(() => true); if (!i) return NC("No published media yet"); const u = await Media.url(i, i.type === "video" ? "playback" : "medium"); if (!u) return { status: "FAIL", detail: "Could not resolve a media URL" }; const r = await fetch(u, { headers: { Range: "bytes=0-0" } }).catch(e => { throw new Error("Request failed (network or CORS): " + e.message); }); return r.ok || r.status === 206 ? P(`HTTP ${r.status} for ${i.type}`) : { status: "FAIL", detail: "HTTP " + r.status }; } },
+      { id: "image", name: "Image loading", run: async () => { const i = firstItem(x => x.type === "image") || firstItem(x => x.thumbnailFileId); if (!i) return NC("No image or thumbnail content yet"); const u = (await Media.url(i, "thumbnail")) || (await Media.url(i, "medium")); if (!u) return { status: "FAIL", detail: "No URL" }; await new Promise((res, rej) => { const im = new Image(); im.onload = res; im.onerror = () => rej(new Error("Image failed to load")); im.src = u; }); return P("Image decoded"); } },
+      { id: "video", name: "Video playback", run: async () => { const i = firstItem(x => x.type === "video"); if (!i) return NC("No published video yet"); const u = await Media.url(i, "playback"); if (!u) return { status: "FAIL", detail: "No playback URL" }; if (isHls(u)) return NC("HLS source: verify in the player"); return new Promise(res => { const v = document.createElement("video"); v.preload = "metadata"; const t = setTimeout(() => { v.src = ""; res({ status: "FAIL", detail: "Timed out loading metadata" }); }, 20000); v.onloadedmetadata = () => { clearTimeout(t); res(P(`Metadata loaded (${v.videoWidth}×${v.videoHeight}, ${fmtDur(v.duration)})`)); }; v.onerror = () => { clearTimeout(t); res({ status: "FAIL", detail: "Browser could not load/decode the file" }); }; v.src = u; }); } },
+      { id: "download", name: "Download availability", run: async () => { const i = firstItem(x => x.downloadEnabled); if (!i) return NC("No downloadable published media yet"); const o = App.downloads.options(i); if (!o.length) return { status: "FAIL", detail: "No download options" }; const r = await App.downloads.verify(i, o[o.length - 1]); return P(r.unverified ? "URL exists but cannot be verified from the browser" : `Verified (${fmtBytes(r.size)})`); } },
+      { id: "routing", name: "Routing", run: async () => { const r = App.router, t = [["/", "home"], ["/@a_b", "profile"], ["/video/x/y", "video"], ["/post/p", "post"], ["/settings/storage", "settings"]].filter(([p, n]) => r.parse(p).name !== n); if (t.length) return { status: "FAIL", detail: "Parse mismatch: " + t.map(x => x[0]).join(", ") }; if (r.mode === "history") { try { history.replaceState(null, "", location.href); } catch (e) { return { status: "FAIL", detail: "History API blocked: " + e.message }; } } return P(`${r.mode} mode; all sample routes parse (direct URLs need a server rewrite to index.html in history mode)`); } },
+      { id: "responsive", name: "Responsive layout (current viewport)", run: async () => { const w = innerWidth, over = document.documentElement.scrollWidth - innerWidth; const bp = w < 700 ? "mobile" : w < 1024 ? "tablet" : "desktop"; return over > 1 ? { status: "FAIL", detail: `Horizontal overflow ${over}px at ${w}px (${bp})` } : P(`${w}px (${bp}) — no horizontal overflow. Resize the window to test 360–1440px`); } }
+    ];
+    this.results = new Map();
+  }
+  async run(id) {
+    const d = this.defs.find(x => x.id === id); if (!d) return; this.results.set(id, { status: "RUN", detail: "Running…" }); Bus.emit("diag"); let r;
+    try { r = await d.run(); } catch (e) { r = { status: "FAIL", detail: e.message || String(e) }; Log.err("DIAG", id, e); }
+    this.results.set(id, { ...r, at: Date.now() }); Bus.emit("diag"); return r;
+  }
+  async runAll() { for (const d of this.defs) await this.run(d.id); }
+}
+
+//__PART5__
+</script>
+</body>
+</html>
